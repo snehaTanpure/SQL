@@ -1,0 +1,138 @@
+SQL Practice Question
+_______________________________________________________________
+Suppose consider we have employee table 
+
+mysql> use second_revision;
+Database changed
+
+mysql> CREATE TABLE Employee (
+    ->     employee_id INT AUTO_INCREMENT PRIMARY KEY,
+    ->     f_name VARCHAR(200),
+    ->     l_name VARCHAR(200),
+    ->     salary INT,
+    ->     email VARCHAR(200),
+    ->     phone_no VARCHAR(10),
+    ->     addr VARCHAR(200),
+    ->     job_title VARCHAR(200),
+    ->     hire_date DATE
+    -> );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> INSERT INTO Employee (f_name, l_name, salary, email, phone_no, addr, job_title, hire_date) VALUES
+    -> ('MICHAEL', 'Johnson', 55000, 'michael.j@example.com', '9876541240', '123 Main Street', 'Software Engineer', '2021-03-15'),
+    -> ('Sarah', 'Connor', 72000, 'sarah.c@example.com', '1234511245', '456 Elm Road', 'Data Analyst', '2020-11-10'),
+    -> ('Jonathan', 'Carter', 48000, 'jonathan.c@example.com', '5678911247', '789 Pine Avenue', 'Project Manager', '2019-06-25'),
+    -> ('Amanda', 'Smith', 60000, 'amanda.s@example.com', '1245556789', '12 Oak Boulevard', 'Technical Writer', '2022-04-18'),
+    -> ('Jennifer', 'Clark', 75000, 'jennifer.c@example.com', '9871245556', '34 Maple Lane', 'Senior Developer', '2018-07-30'),
+    -> ('James', 'Brown', 52000, 'james.b@example.com', '9912345678', '789 Cedar Avenue', 'Marketing Specialist', '2017-02-12');
+Query OK, 6 rows affected (0.02 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee;
++-------------+----------+---------+--------+------------------------+------------+------------------+----------------------+------------+
+| employee_id | f_name   | l_name  | salary | email                  | phone_no   | addr             | job_title            | hire_date  |
++-------------+----------+---------+--------+------------------------+------------+------------------+----------------------+------------+
+|           1 | MICHAEL  | Johnson |  55000 | michael.j@example.com  | 9876541240 | 123 Main Street  | Software Engineer    | 2021-03-15 |
+|           2 | Sarah    | Connor  |  72000 | sarah.c@example.com    | 1234511245 | 456 Elm Road     | Data Analyst         | 2020-11-10 |
+|           3 | Jonathan | Carter  |  48000 | jonathan.c@example.com | 5678911247 | 789 Pine Avenue  | Project Manager      | 2019-06-25 |
+|           4 | Amanda   | Smith   |  60000 | amanda.s@example.com   | 1245556789 | 12 Oak Boulevard | Technical Writer     | 2022-04-18 |
+|           5 | Jennifer | Clark   |  75000 | jennifer.c@example.com | 9871245556 | 34 Maple Lane    | Senior Developer     | 2018-07-30 |
+|           6 | James    | Brown   |  52000 | james.b@example.com    | 9912345678 | 789 Cedar Avenue | Marketing Specialist | 2017-02-12 |
++-------------+----------+---------+--------+------------------------+------------+------------------+----------------------+------------+
+6 rows in set (0.00 sec)
+
+
+______________________________________________________________________________________________________________________________________________________________________________
+
+Q1. Write a  MySQL query to update the portion of the phone_nmber in the employees table, within the phone number the substring '124' will be replaced by '999'.
+
+mysql> update employee set phone_no=replace(phone_no,"124","999");
+Query OK, 5 rows affected (0.01 sec)
+Rows matched: 6  Changed: 5  Warnings: 0
+
+mysql> select * from employee;
++-------------+----------+---------+--------+------------------------+------------+------------------+----------------------+------------+
+| employee_id | f_name   | l_name  | salary | email                  | phone_no   | addr             | job_title            | hire_date  |
++-------------+----------+---------+--------+------------------------+------------+------------------+----------------------+------------+
+|           1 | MICHAEL  | Johnson |  55000 | michael.j@example.com  | 9876549990 | 123 Main Street  | Software Engineer    | 2021-03-15 |
+|           2 | Sarah    | Connor  |  72000 | sarah.c@example.com    | 1234519995 | 456 Elm Road     | Data Analyst         | 2020-11-10 |
+|           3 | Jonathan | Carter  |  48000 | jonathan.c@example.com | 5678919997 | 789 Pine Avenue  | Project Manager      | 2019-06-25 |
+|           4 | Amanda   | Smith   |  60000 | amanda.s@example.com   | 9995556789 | 12 Oak Boulevard | Technical Writer     | 2022-04-18 |
+|           5 | Jennifer | Clark   |  75000 | jennifer.c@example.com | 9879995556 | 34 Maple Lane    | Senior Developer     | 2018-07-30 |
+|           6 | James    | Brown   |  52000 | james.b@example.com    | 9912345678 | 789 Cedar Avenue | Marketing Specialist | 2017-02-12 |
++-------------+----------+---------+--------+------------------------+------------+------------------+----------------------+------------+
+6 rows in set (0.00 sec)
+
+
+_________________________________________________________________________________________________________________________________________________________________________________
+
+
+Q2. Write a  MySQL query to get the details of the employees where the length of the first name greater than or equal to 8.
+
+mysql> select * from employee where  length(f_name)>=8;
++-------------+----------+--------+--------+------------------------+------------+-----------------+------------------+------------+
+| employee_id | f_name   | l_name | salary | email                  | phone_no   | addr            | job_title        | hire_date  |
++-------------+----------+--------+--------+------------------------+------------+-----------------+------------------+------------+
+|           3 | Jonathan | Carter |  48000 | jonathan.c@example.com | 5678919997 | 789 Pine Avenue | Project Manager  | 2019-06-25 |
+|           5 | Jennifer | Clark  |  75000 | jennifer.c@example.com | 9879995556 | 34 Maple Lane   | Senior Developer | 2018-07-30 |
++-------------+----------+--------+--------+------------------------+------------+-----------------+------------------+------------+
+2 rows in set (0.00 sec)
+
+_________________________________________________________________________________________________________________________________________________________________________________
+
+Q3. Write a  MySQL query to display leading zeros before maximum and minimum salary.
+
+mysql> select concat('0',max(salary)) as maximum_Salary,concat('0',min(salary)) as minimum_salary From employee;
++----------------+----------------+
+| maximum_Salary | minimum_salary |
++----------------+----------------+
+| 075000         | 048000         |
++----------------+----------------+
+1 row in set (0.00 sec)
+
+__________________________________________________________________________________________________________________________________________________________________________________
+
+Q4. Write a MySQL query to append '@example.com' to  email field?
+
+mysql> update employee set email=concat(email,"@example.com") where email not like '%@%';
+Query OK, 2 rows affected (0.02 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+
+mysql> select * from employee;
++-------------+----------+---------+--------+------------------------+------------+------------------+----------------------+------------+
+| employee_id | f_name   | l_name  | salary | email                  | phone_no   | addr             | job_title            | hire_date  |
++-------------+----------+---------+--------+------------------------+------------+------------------+----------------------+------------+
+|           1 | MICHAEL  | Johnson |  55000 | michael@example.com    | 9876549990 | 123 Main Street  | Software Engineer    | 2021-03-15 |
+|           2 | Sarah    | Connor  |  72000 | sarthk@example.com     | 1234519995 | 456 Elm Road     | Data Analyst         | 2020-11-10 |
+|           3 | Jonathan | Carter  |  48000 | jonathan.c@example.com | 5678919997 | 789 Pine Avenue  | Project Manager      | 2019-06-25 |
+|           4 | Amanda   | Smith   |  60000 | amanda.s@example.com   | 9995556789 | 12 Oak Boulevard | Technical Writer     | 2022-04-18 |
+|           5 | Jennifer | Clark   |  75000 | jennifer.c@example.com | 9879995556 | 34 Maple Lane    | Senior Developer     | 2018-07-30 |
+|           6 | James    | Brown   |  52000 | james.b@example.com    | 9912345678 | 789 Cedar Avenue | Marketing Specialist | 2017-02-12 |
++-------------+----------+---------+--------+------------------------+------------+------------------+----------------------+------------+
+6 rows in set (0.00 sec)
+
+
+__________________________________________________________________________________________________________________________________________________________________________________
+
+Q5. Write a  MySQL query to get the employee id, first name and hire month.
+
+mysql> select  employee_id,f_name,l_name,hire_date from employee;
++-------------+----------+---------+------------+
+| employee_id | f_name   | l_name  | hire_date  |
++-------------+----------+---------+------------+
+|           1 | MICHAEL  | Johnson | 2021-03-15 |
+|           2 | Sarah    | Connor  | 2020-11-10 |
+|           3 | Jonathan | Carter  | 2019-06-25 |
+|           4 | Amanda   | Smith   | 2022-04-18 |
+|           5 | Jennifer | Clark   | 2018-07-30 |
+|           6 | James    | Brown   | 2017-02-12 |
++-------------+----------+---------+------------+
+6 rows in set (0.00 sec)
+
+__________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+
+
+

@@ -1,0 +1,336 @@
+mysql> create database practice_test;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use practice_test;
+Database changed
+
+mysql> create table Strudent(Stud_id int primary key,Full_name varchar(200) not null, Email varchar(200) unique not null , Phone_number varchar(15) not null );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> create table Course(Course_id int primary key,course_Name varchar(100) not null,Duration int not null,Fee varchar(100) not null);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table Batches(Batch_id int primary key, course_id int, foreign key(course_id) references course(course_id),Batch_name varchar(200) not null, start_date date not null,End_date date not null);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table Enrollments (enroll_id int Primary key,Stud_id int, foreign key(Stud_id) references Strudent(stud_id) on delete set null on update cascade,Batch_id int,foreign key(Batch_id) references Batches(Batch_id) on delete set null on update casca
+de,Enroll_date date not null);
+Query O
+
+
+mysql>
+mysql>
+mysql> desc strudent;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| Stud_id      | int          | NO   | PRI | NULL    |       |
+| Full_name    | varchar(200) | NO   |     | NULL    |       |
+| Email        | varchar(200) | NO   | UNI | NULL    |       |
+| Phone_number | varchar(15)  | NO   |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+4 rows in set (0.01 sec)
+
+mysql> insert into strudent values(1,"Anu","anu@gmail.com","8746354596");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into strudent values(2,"sneha","sneha@gmail.com","9021578233"),(3,"shreya","shreya@gmail.com","902123853");
+Query OK, 2 rows affected (0.02 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into strudent values(4,"nilu","nilu@gmail.com","9929578233"),(5,"sejal","sejal@gmail.com","952323853");
+Query OK, 2 rows affected (0.01 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> insert into strudent values(6,"sakshi","sakshi@gmail.com","922578233");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> desc  Course;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| Course_id   | int          | NO   | PRI | NULL    |       |
+| course_Name | varchar(100) | NO   |     | NULL    |       |
+| Duration    | int          | NO   |     | NULL    |       |
+| Fee         | varchar(100) | NO   |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into course values(1,"Java full stack","6","40000");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into course values(2,"Phython","5","35000"),(3,"dot net","15","10000"),(4,"month satck","3","15000"),(5,"java full stack","15","95000");
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc Batches;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| Batch_id   | int          | NO   | PRI | NULL    |       |
+| course_id  | int          | YES  | MUL | NULL    |       |
+| Batch_name | varchar(200) | NO   |     | NULL    |       |
+| start_date | date         | NO   |     | NULL    |       |
+| End_date   | date         | NO   |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> insert into batches values(1,2,"june","2024-06-04","2025-02-07");
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into batches values(2,5,"july","2024-07-05","2025-01-09"),(3,1,"march","2023-07-05","2024-10-01"),(4,3,"may","2020-07-05","2025-06-16"),(5,3,"april","2022-10-08","2025-10-08");
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> desc Enrollments;
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| enroll_id   | int  | NO   | PRI | NULL    |       |
+| Stud_id     | int  | YES  | MUL | NULL    |       |
+| Batch_id    | int  | YES  | MUL | NULL    |       |
+| Enroll_date | date | NO   |     | NULL    |       |
++-------------+------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into Enrollments values(1,2,3,'2020-01-10');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Enrollments values(2,6,5,'2021-02-15'),(3,4,3,'2022-03-10'),(4,1,1,'2023-08-23'),(5,4,4,'2024-10-20'),(6,3,2,'2024-11-05'),(7,5,5,'2021-05-15');
+Query OK, 6 rows affected (0.02 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+
+
+mysql>  select * from strudent;
++---------+-----------+------------------+--------------+
+| Stud_id | Full_name | Email            | Phone_number |
++---------+-----------+------------------+--------------+
+|       1 | Anu       | anu@gmail.com    | 8746354596   |
+|       2 | sneha     | sneha@gmail.com  | 9021578233   |
+|       3 | shreya    | shreya@gmail.com | 902123853    |
+|       4 | nilu      | nilu@gmail.com   | 9929578233   |
+|       5 | sejal     | sejal@gmail.com  | 952323853    |
+|       6 | sakshi    | sakshi@gmail.com | 922578233    |
++---------+-----------+------------------+--------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from  Course;
++-----------+-----------------+----------+-------+
+| Course_id | course_Name     | Duration | Fee   |
++-----------+-----------------+----------+-------+
+|         1 | Java full stack |        6 | 40000 |
+|         2 | Phython         |        5 | 35000 |
+|         3 | dot net         |       15 | 10000 |
+|         4 | month satck     |        3 | 15000 |
+|         5 | java full stack |       15 | 95000 |
++-----------+-----------------+----------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from batches;
++----------+-----------+------------+------------+------------+
+| Batch_id | course_id | Batch_name | start_date | End_date   |
++----------+-----------+------------+------------+------------+
+|        1 |         2 | june       | 2024-06-04 | 2025-02-07 |
+|        2 |         5 | july       | 2024-07-05 | 2025-01-09 |
+|        3 |         1 | march      | 2023-07-05 | 2024-10-01 |
+|        4 |         3 | may        | 2020-07-05 | 2025-06-16 |
+|        5 |         3 | april      | 2022-10-08 | 2025-10-08 |
++----------+-----------+------------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from  Enrollments;
++-----------+---------+----------+-------------+
+| enroll_id | Stud_id | Batch_id | Enroll_date |
++-----------+---------+----------+-------------+
+|         1 |       2 |        3 | 2020-01-10  |
+|         2 |       6 |        5 | 2021-02-15  |
+|         3 |       4 |        3 | 2022-03-10  |
+|         4 |       1 |        1 | 2023-08-23  |
+|         5 |       4 |        4 | 2024-10-20  |
+|         6 |       3 |        2 | 2024-11-05  |
+|         7 |       5 |        5 | 2021-05-15  |
++-----------+---------+----------+-------------+
+7 rows in set (0.00 sec)
+
+
+1) write a  query to show the all course whose fees 20000,40000,50000,and 60000 
+
+mysql> select * from course where fee in(40000,10000,15000);
++-----------+-----------------+----------+-------+
+| Course_id | course_Name     | Duration | Fee   |
++-----------+-----------------+----------+-------+
+|         1 | Java full stack |        6 | 40000 |
+|         3 | dot net         |       15 | 10000 |
+|         4 | month satck     |        3 | 15000 |
++-----------+-----------------+----------+-------+
+3 rows in set (0.00 sec)
+
+
+2) mysql> select * from  strudent s inner join Enrollments e on s.stud_id=e.stud_id;
++---------+-----------+------------------+--------------+-----------+---------+----------+-------------+
+| Stud_id | Full_name | Email            | Phone_number | enroll_id | Stud_id | Batch_id | Enroll_date |
++---------+-----------+------------------+--------------+-----------+---------+----------+-------------+
+|       1 | Anu       | anu@gmail.com    | 8746354596   |         4 |       1 |        1 | 2023-08-23  |
+|       2 | sneha     | sneha@gmail.com  | 9021578233   |         1 |       2 |        3 | 2020-01-10  |
+|       3 | shreya    | shreya@gmail.com | 902123853    |         6 |       3 |        2 | 2024-11-05  |
+|       4 | nilu      | nilu@gmail.com   | 9929578233   |         3 |       4 |        3 | 2022-03-10  |
+|       4 | nilu      | nilu@gmail.com   | 9929578233   |         5 |       4 |        4 | 2024-10-20  |
+|       5 | sejal     | sejal@gmail.com  | 952323853    |         7 |       5 |        5 | 2021-05-15  |
+|       6 | sakshi    | sakshi@gmail.com | 922578233    |         2 |       6 |        5 | 2021-02-15  |
++---------+-----------+------------------+--------------+-----------+---------+----------+-------------+
+7 rows in set (0.00 sec)
+
+
+3)
+mysql> select * from strudent s left join  Enrollments e on s.stud_id=e.Stud_id where enroll_id is null;
+Empty set (0.00 sec)
+
+
+
+5)
+mysql> select batch_name,count(stud_id) from  batches b left join  Enrollments e on b.batch_id=e.batch_id group by b.batch_name;
++------------+----------------+
+| batch_name | count(stud_id) |
++------------+----------------+
+| june       |              1 |
+| july       |              1 |
+| march      |              2 |
+| may        |              1 |
+| april      |              2 |
++------------+----------------+
+5 rows in set (0.00 sec)
+
+
+6)
+mysql> select c.course_Name,sum(c.Fee) from Course c inner join batches b on  c.course_id=b.course_id inner join  Enrollments e on e.Batch_id=b.Batch_id group by c.course_name;
++-----------------+------------+
+| course_Name     | sum(c.Fee) |
++-----------------+------------+
+| Java full stack |     175000 |
+| Phython         |      35000 |
+| dot net         |      30000 |
++-----------------+------------+
+3 rows in set (0.00 sec)
+
+
+7)
+mysql> select s.Full_name,c.course_name from course c inner join batches b on c.Course_id=b.Course_id inner join Enrollments e on
+b.Batch_id=e.Batch_id inner join  strudent s on s.Stud_id=e.Stud_id;
++-----------+-----------------+
+| Full_name | course_name     |
++-----------+-----------------+
+| sneha     | Java full stack |
+| nilu      | Java full stack |
+| Anu       | Phython         |
+| nilu      | dot net         |
+| sakshi    | dot net         |
+| sejal     | dot net         |
+| shreya    | java full stack |
++-----------+-----------------+
+7 rows in set (0.00 sec)
+
+
+
+
+8)
+mysql> select Batch_name,start_date from  batches order by start_date desc;
++------------+------------+
+| Batch_name | start_date |
++------------+------------+
+| july       | 2024-07-05 |
+| june       | 2024-06-04 |
+| march      | 2023-07-05 |
+| april      | 2022-10-08 |
+| may        | 2020-07-05 |
++------------+------------+
+5 rows in set (0.00 sec)
+
+
+9)
+
+mysql> select  course_Name,count(e.enroll_id) from  Course c inner join batches b on c.course_id=b.course_id inner join Enrollments e on b.Batch_id=e.Batch_id group by course_name;
++-----------------+--------------------+
+| course_Name     | count(e.enroll_id) |
++-----------------+--------------------+
+| Java full stack |                  3 |
+| Phython         |                  1 |
+| dot net         |                  3 |
++-----------------+--------------------+
+3 rows in set (0.00 sec)
+
+10)
+mysql> select avg(c.fee),c.course_name from course c inner join batches b on b.course_id=c.course_id inner join enrollments e on e.Batch_id=b.Batch_id group by c.course_name;
++--------------------+-----------------+
+| avg(c.fee)         | course_name     |
++--------------------+-----------------+
+| 58333.333333333336 | Java full stack |
+|              35000 | Phython         |
+|              10000 | dot net         |
++--------------------+-----------------+
+3 rows in set (0.01 sec)
+
+11)
+DELIMITER //
+     create procedure getDetailsByStuId1(student_id int)
+     BEGIN
+     select s.studentId ,s.fullname,s.email,c.courseid,c.coursename,b.batchid,b.batchname,b.startdate,e.enrollmentid,e.enroll_date  from course c right join batches b on c.courseid=b.courseid right join enrollments e on e.batchid=b.batchid right join student s on e.studentid=s.studentid
+     where s.studentid=student_id;
+     end//
+
+12)
+mysql> DELIMITER //
+mysql>      create procedure getDetailsByStuId2(course_id int)
+    ->      BEGIN
+    ->      select s.studentId ,s.fullname,s.email,c.courseid,c.coursename,b.batchid,b.batchname,b.startdate,e.enrollmentid,e.enroll_date  from course c right join batches b on c.courseid=b.courseid right join enrollments e on e.batchid=b.batchid right join student s on e.studentid=s.studentid
+    ->      where c.courseid=course_id;
+    ->      end//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call  getDetailsByStuId2(2)//
++-----------+----------+---------------+----------+------------+---------+-----------+------------+--------------+-------------+
+| studentId | fullname | email         | courseid | coursename | batchid | batchname | startdate  | enrollmentid | enroll_date |
++-----------+----------+---------------+----------+------------+---------+-----------+------------+--------------+-------------+
+|         1 | Anu      | anu@gmail.com |        2 | Python     |       1 | june      | 2024-06-04 |            4 | 2023-04-08  |
++-----------+----------+---------------+----------+------------+---------+-----------+------------+--------------+-------------+
+1 row in set (0.01 sec)
+
+
+
+13)
+
+
+mysql> DELIMITER //
+mysql>      create procedure getDetailsByStuId2(course_id int)
+    ->      BEGIN
+    ->      select s.studentId ,s.fullname,s.email,c.courseid,c.coursename,b.batchid,b.batchname,b.startdate,e.enrollmentid,e.enroll_date  from course c right join batches b on c.courseid=b.courseid right join enrollments e on e.batchid=b.batchid right join student s on e.studentid=s.studentid
+    ->      where c.courseid=course_id;
+    ->      end//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call  getDetailsByStuId2(2)//
++-----------+----------+---------------+----------+------------+---------+-----------+------------+--------------+-------------+
+| studentId | fullname | email         | courseid | coursename | batchid | batchname | startdate  | enrollmentid | enroll_date |
++-----------+----------+---------------+----------+------------+---------+-----------+------------+--------------+-------------+
+|         1 | Anu      | anu@gmail.com |        2 | Python     |       1 | june      | 2024-06-04 |            4 | 2023-04-08  |
++-----------+----------+---------------+----------+------------+---------+-----------+------------+--------------+-------------+
+1 row in set (0.01 sec)
+
+
+15)
+
+mysql> create view batch_detail as select b.batch_id,b.course_id,b.batch_name,b.start_date,b.end_date,count(e.stud_id) from b
+atches b left join Enrollments e on e.batch_id=b.batch_id//
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from batch_details//
++----------+-----------+------------+------------+------------+------------------+
+| batch_id | course_id | batch_name | start_date | end_date   | count(e.stud_id) |
++----------+-----------+------------+------------+------------+------------------+
+|        1 |         2 | june       | 2024-06-04 | 2025-02-07 |                1 |
+|        2 |         5 | july       | 2024-07-05 | 2025-01-09 |                1 |
+|        3 |         1 | march      | 2023-07-05 | 2024-10-01 |                2 |
+|        4 |         3 | may        | 2020-07-05 | 2025-06-16 |                1 |
+|        5 |         3 | april      | 2022-10-08 | 2025-10-08 |                2 |
++----------+-----------+------------+------------+------------+------------------+
+5 rows in set (0.00 sec)

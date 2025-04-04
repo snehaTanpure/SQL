@@ -1,0 +1,97 @@
+
+Q1. Write a  MySQL query to find all employees where first names are in upper case
+
+
+
+________________||___________________________||____________________________________________||______________________________
+Q2. Write a  MySQL query to extract the last 4 characters of phone numbers.
+
+mysql> select substring(phone_no,7,10) as last_four_digit from employee;
++-----------------+
+| last_four_digit |
++-----------------+
+| 9990            |
+| 9995            |
+| 9997            |
+| 6789            |
+| 5556            |
+| 5678            |
++-----------------+
+6 rows in set (0.00 sec)
+
+________________||___________________________||____________________________________________||______________________________
+
+Q3. Write a  MySQL query to get the last word of the street address.
+
+mysql> SELECT  SUBSTRING_INDEX(addr, ' ', -1) AS last_word from employee;
++-----------+
+| last_word |
++-----------+
+| Street    |
+| Road      |
+| Avenue    |
+| Boulevard |
+| Lane      |
+| Avenue    |
++-----------+
+6 rows in set (0.00 sec)
+
+________________||___________________________||____________________________________________||______________________________
+
+Q4. Write a MySQL query to get the locations that have minimum street length.
+
+
+
+________________||___________________________||____________________________________________||______________________________
+
+Q5. Write a MySQL query to display the first word from those job titles which contains more than one word.
+
+mysql>  SELECT  SUBSTRING_INDEX(job_title,' ',1) AS First_word from employee where job_title like '% %';
++------------+
+| First_word |
++------------+
+| Data       |
+| Project    |
+| Technical  |
+| Senior     |
+| Marketing  |
++------------+
+5 rows in set (0.00 sec)
+
+________________||___________________________||____________________________________________||______________________________
+
+Q6.Write a MySQL query to display the first name and last name for employees where the first occurrence of last name contains character 'c' after 2nd position.
+
+
+
+________________||___________________________||____________________________________________||______________________________
+
+Q7. Write a  MySQL query that displays the first name and the length of the first name for all employees whose name starts with the letters 'A', 'J' or 'M'. Give each column an appropriate label. Sort the results by the employees' first names.
+
+
+select f_name,length(f_name) from employee where f_name like In('a%','j%','%m');
+
+mysql> select f_name,length(f_name) from employee where f_name like 'a%' or f_name like 'j%' or  f_name like 'm%';
++----------+----------------+
+| f_name   | length(f_name) |
++----------+----------------+
+| michae   |              6 |
+| Jonathan |              8 |
+| Amanda   |              6 |
+| Jennifer |              8 |
+| James    |              5 |
++----------+----------------+
+5 rows in set (0.00 sec)
+
+
+
+________________||___________________________||____________________________________________||______________________________
+
+Q8. Write a  MySQL query to display the first name and salary for all employees. Format the salary to be 10 characters long, left-padded with the $ symbol. Label the column SALARY.
+
+
+
+
+________________||___________________________||____________________________________________||______________________________
+
+

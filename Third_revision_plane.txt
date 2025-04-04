@@ -1,0 +1,450 @@
+
+
+
+
+
+
+insert into Employees values(1,'John Smith','Sales','2020-01-01'),(2,'Jane Doe','Marketing','2020-06-01'),(3,'Bob Johnson','Sales','2021-01-01'),(4,'Alice Brown','Marketing','2021-06-01') );
+
+insert into cust values (1,'Mike Davis','mike.davis@example.com','123 Main St',876541234),(2,'Emma Taylor','emma.taylor@example.com', '456 Elm St',123455678),(3,'David Lee','david.lee@example.com','789 Oak St', 123459012),(4,'Sophia Patel','sophia.patel@example.com','321 Pine St', 55571111);
+
+insert into Sales values ( 1 , 1 , '2022-01-01','Product A',10 ,100.00),(2, 2 , '2022-01-15 ', 'Product B ' ,20 , 200.00),(3 , 3 ,'2022-02-01','Product C ',30 , 300.00 ),(4 , 1 , '2022-03-01','Product A ', 15 , 150.00 ),(5 , 4 ,'2022-04-01','Product D ', 25 , 250.00 );
+
+insert into orders values( 1 , 1 , '2022-01-01' , 1000.00 , 1),( 2 ,  2 , '2022-01-15' , 2000.00 , 2),( 3 , 3 , '2022-02-01' , 3000.00 , 3),( 4 , 1 , '2022-03-01' , 1500.00 , 1),(5 , 4 , '2022-04-01' , 2500.00 , 4);
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| 13_jan_2025        |
+| exam_data          |
+| information_schema |
+| mysql              |
+| performance_schema |
+| practice_test      |
+| sakila             |
+| second_revision    |
+| sys                |
+| world              |
++--------------------+
+10 rows in set (0.05 sec)
+
+mysql> create database Revision_third;
+Query OK, 1 row affected (0.03 sec)
+
+mysql> use Revision_third;
+Database changed
+
+mysql> create table Employees (Emp_ID int primary key, Emp_name  varchar(255), Emp_department varchar(255),Emp_hiredate date);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table sales(Sal_ID  int primary key ,Emp_ID int , Foreign key(emp_id) references Employees(Emp_id) on  update cascade on delete set null, Sal_Date date , Pro_Name  varchar(255),Qua int ,Sal_amt decimal(10,2) );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> create table cust(cust_id int primary key,cust_name varchar(50),cust_email varchar(50) unique,cust_addre varchar(100),phone varchar(20));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table orders (ord_id int primary key,cust_id int , foreign key(cust_id) references cust(cust_Id) on update cascade on delete set null ,ord_date date, total decimal (10,2),emp_id int,foreign key(emp_id) references  Employees(emp_id) on update cascade on delete set null);
+Query OK, 0 rows affected (0.08 sec)
+
+
+mysql> insert into Employees values(1,'John Smith','Sales','2020-01-01'),(2,'Jane Doe','Marketing','2020-06-01'),(3,'Bob Johnson','Sales','2021-01-01'),(4,'Alice Brown','Marketing','2021-06-01');
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into Sales values ( 1 , 1 , '2022-01-01','Product A',10 ,100.00),(2, 2 , '2022-01-15 ', 'Product B ' ,20 , 200.00),(3 , 3 ,'2022-02-01','Product C ',30 , 300.00 ),(4 , 1 , '2022-03-01','Product A ', 15 , 150.00 ),(5 , 4 ,'2022-04-01','Product D ', 25 , 250.00 );
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> insert into cust values (1,'Mike Davis','mike.davis@example.com','123 Main St',876541234),(2,'Emma Taylor','emma.taylor@example.com', '456 Elm St',123455678),(3,'David Lee','david.lee@example.com','789 Oak St', 123459012),(4,'Sophia Patel','sophia.patel@example.com','321 Pine St', 55571111);
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> insert into orders values( 1 , 1 , '2022-01-01' , 1000.00 , 1),( 2 ,  2 , '2022-01-15' , 2000.00 , 2),( 3 , 3 , '2022-02-01' , 3000.00 , 3),( 4 , 1 , '2022-03-01' , 1500.00 , 1),(5 , 4 , '2022-04-01' , 2500.00 , 4);
+Query OK, 5 rows affected (0.02 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+mysql> select * from employees;
++--------+-------------+----------------+--------------+
+| Emp_ID | Emp_name    | Emp_department | Emp_hiredate |
++--------+-------------+----------------+--------------+
+|      1 | John Smith  | Sales          | 2020-01-01   |
+|      2 | Jane Doe    | Marketing      | 2020-06-01   |
+|      3 | Bob Johnson | Sales          | 2021-01-01   |
+|      4 | Alice Brown | Marketing      | 2021-06-01   |
++--------+-------------+----------------+--------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from sales;
++--------+--------+------------+------------+------+---------+
+| Sal_ID | Emp_ID | Sal_Date   | Pro_Name   | Qua  | Sal_amt |
++--------+--------+------------+------------+------+---------+
+|      1 |      1 | 2022-01-01 | Product A  |   10 |  100.00 |
+|      2 |      2 | 2022-01-15 | Product B  |   20 |  200.00 |
+|      3 |      3 | 2022-02-01 | Product C  |   30 |  300.00 |
+|      4 |      1 | 2022-03-01 | Product A  |   15 |  150.00 |
+|      5 |      4 | 2022-04-01 | Product D  |   25 |  250.00 |
++--------+--------+------------+------------+------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select * from cust;
++---------+--------------+--------------------------+-------------+-----------+
+| cust_id | cust_name    | cust_email               | cust_addre  | phone     |
++---------+--------------+--------------------------+-------------+-----------+
+|       1 | Mike Davis   | mike.davis@example.com   | 123 Main St | 876541234 |
+|       2 | Emma Taylor  | emma.taylor@example.com  | 456 Elm St  | 123455678 |
+|       3 | David Lee    | david.lee@example.com    | 789 Oak St  | 123459012 |
+|       4 | Sophia Patel | sophia.patel@example.com | 321 Pine St | 55571111  |
++---------+--------------+--------------------------+-------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from orders;
++--------+---------+------------+---------+--------+
+| ord_id | cust_id | ord_date   | total   | emp_id |
++--------+---------+------------+---------+--------+
+|      1 |       1 | 2022-01-01 | 1000.00 |      1 |
+|      2 |       2 | 2022-01-15 | 2000.00 |      2 |
+|      3 |       3 | 2022-02-01 | 3000.00 |      3 |
+|      4 |       1 | 2022-03-01 | 1500.00 |      1 |
+|      5 |       4 | 2022-04-01 | 2500.00 |      4 |
++--------+---------+------------+---------+--------+
+5 rows in set (0.00 sec)
+
+mysql>
+1. GROUP BY Operator
+
+Find the total sales per product from the Sales table.
+mysql> select pro_name,count(pro_name) from sales group by pro_name;
++------------+-----------------+
+| pro_name   | count(pro_name) |
++------------+-----------------+
+| Product A  |               1 |
+| Product B  |               1 |
+| Product C  |               1 |
+| Product A  |               1 |
+| Product D  |               1 |
++------------+-----------------+
+5 rows in set (0.00 sec)
+
+
+Find the average salary by department in the Employee table.
+
+mysql> select avg(salary) from employees group by emp_department;
++-------------+
+| avg(salary) |
++-------------+
+|  17500.0000 |
+|  42500.0000 |
++-------------+
+2 rows in set (0.00 sec)
+
+Count the number of employees working in each department.
+
+mysql> select emp_department,count(emp_id) from employees group by emp_department;
++----------------+---------------+
+| emp_department | count(emp_id) |
++----------------+---------------+
+| Sales          |             2 |
+| Marketing      |             2 |
++----------------+---------------+
+2 rows in set (0.00 sec)
+
+
+Find the maximum salary for each department.
+
+mysql> select emp_department,max(salary) from employees group by emp_department;
++----------------+-------------+
+| emp_department | max(salary) |
++----------------+-------------+
+| Sales          |       20000 |
+| Marketing      |       50000 |
++----------------+-------------+
+2 rows in set (0.00 sec)
+
+
+Calculate the total number of orders per customer from the Orders table.
+
+mysql> select c.cust_id,c.cust_name,count(o.cust_id) from orders o inner join cust c on o.cust_id=c.cust_id group by o.cust_id;
++---------+--------------+------------------+
+| cust_id | cust_name    | count(o.cust_id) |
++---------+--------------+------------------+
+|       1 | Mike Davis   |                2 |
+|       2 | Emma Taylor  |                1 |
+|       3 | David Lee    |                1 |
+|       4 | Sophia Patel |                1 |
++---------+--------------+------------------+
+4 rows in set (0.00 sec)
+
+Find the highest and lowest salary in each department.
+
+mysql> select emp_department,max(salary) as maximum_salary,min(salary) as minimum_salary fro
+m employees group by emp_department;
++----------------+----------------+----------------+
+| emp_department | maximum_salary | minimum_salary |
++----------------+----------------+----------------+
+| Sales          |          20000 |          15000 |
+| Marketing      |          50000 |          35000 |
++----------------+----------------+----------------+
+2 rows in set (0.00 sec)
+
+
+Get the average order amount per customer.
+
+mysql> select c.cust_id,c.cust_name,avg(o.total) from orders o inner join cust c on o.cust_i
+d=c.cust_id group by c.cust_id;
++---------+--------------+--------------+
+| cust_id | cust_name    | avg(o.total) |
++---------+--------------+--------------+
+|       1 | Mike Davis   |  1250.000000 |
+|       2 | Emma Taylor  |  2000.000000 |
+|       3 | David Lee    |  3000.000000 |
+|       4 | Sophia Patel |  2500.000000 |
++---------+--------------+--------------+
+4 rows in set (0.01 sec)
+
+
+mysql> select cust_id,avg(total) from orders group by cust_id;
++---------+-------------+
+| cust_id | avg(total)  |
++---------+-------------+
+|       1 | 1250.000000 |
+|       2 | 2000.000000 |
+|       3 | 3000.000000 |
+|       4 | 2500.000000 |
++---------+-------------+
+4 rows in set (0.00 sec)
+
+
+Find the total revenue per month.
+
+
+Find the total quantity sold for each product.
+
+select pro_name,count(qua) from sales group by pro_name;
+
+Get the average age of employees in each department.
+
+select emp_department,avg(age) from employees group by emp_department 
+
+
+2. LIKE Operator
+
+Find all customers whose names start with 'e'.
+
+mysql> select * from cust where cust_name like 'e%';
++---------+-------------+-------------------------+------------+-----------+
+| cust_id | cust_name   | cust_email              | cust_addre | phone     |
++---------+-------------+-------------------------+------------+-----------+
+|       2 | Emma Taylor | emma.taylor@example.com | 456 Elm St | 123455678 |
++---------+-------------+-------------------------+------------+-----------+
+1 row in set (0.00 sec)
+
+Find all employees whose email contains 'gmail.com'.
+
+mysql> select * from cust where cust_email like '%gmail.com%';
+Empty set (0.00 sec)
+
+mysql> select * from cust where cust_email like '%@example.com%';
++---------+--------------+--------------------------+-------------+-----------+
+| cust_id | cust_name    | cust_email               | cust_addre  | phone     |
++---------+--------------+--------------------------+-------------+-----------+
+|       1 | Mike Davis   | mike.davis@example.com   | 123 Main St | 876541234 |
+|       2 | Emma Taylor  | emma.taylor@example.com  | 456 Elm St  | 123455678 |
+|       3 | David Lee    | david.lee@example.com    | 789 Oak St  | 123459012 |
+|       4 | Sophia Patel | sophia.patel@example.com | 321 Pine St | 55571111  |
++---------+--------------+--------------------------+-------------+-----------+
+4 rows in set (0.00 sec)
+
+Search for all products with names starting with 'M' and ending with 'e'
+
+mysql> select pro_name from sales where pro_name like 'p%a';
++-----------+
+| pro_name  |
++-----------+
+| Product A |
++-----------+
+1 row in set (0.00 sec)
+
+.
+Retrieve all orders where the customer’s address contains the word 'Street'.
+
+mysql> select * from cust where cust_addre like '%st%';
++---------+--------------+--------------------------+-------------+-----------+
+| cust_id | cust_name    | cust_email               | cust_addre  | phone     |
++---------+--------------+--------------------------+-------------+-----------+
+|       1 | Mike Davis   | mike.davis@example.com   | 123 Main St | 876541234 |
+|       2 | Emma Taylor  | emma.taylor@example.com  | 456 Elm St  | 123455678 |
+|       3 | David Lee    | david.lee@example.com    | 789 Oak St  | 123459012 |
+|       4 | Sophia Patel | sophia.patel@example.com | 321 Pine St | 55571111  |
++---------+--------------+--------------------------+-------------+-----------+
+4 rows in set (0.00 sec)
+
+Find all books whose titles contain the word 'SQL'.
+List all employees whose job title contains the word 'Manager'.
+Find products whose names start with 'P' or 'S'.
+Find all students with names that end with 'son'.
+Retrieve records where the description contains the term 'discount'.
+
+Search for customers whose phone numbers start with '555'.
+
+mysql> select * from cust where phone like '555%';
++---------+--------------+--------------------------+-------------+----------+
+| cust_id | cust_name    | cust_email               | cust_addre  | phone    |
++---------+--------------+--------------------------+-------------+----------+
+|       4 | Sophia Patel | sophia.patel@example.com | 321 Pine St | 55571111 |
++---------+--------------+--------------------------+-------------+----------+
+1 row in set (0.00 sec)
+
+
+3. HAVING Clause
+
+Find the departments with more than 10 employees.
+
+mysql> select emp_department,count(emp_id) from employees group by emp_department having cou
+nt(emp_id)>1;
++----------------+---------------+
+| emp_department | count(emp_id) |
++----------------+---------------+
+| Sales          |             2 |
+| Marketing      |             2 |
++----------------+---------------+
+2 rows in set (0.01 sec)
+
+mysql> select emp_department,count(emp_id) from employees group by emp_department having count(emp_id)>10;
+Empty set (0.00 sec)
+
+Retrieve the average salary for each department, but only for departments with more than 5 employees.
+
+mysql> select emp_department,avg(salary),count(emp_id) from employees group by emp_departmen
+t having count(emp_id)>1;
++----------------+-------------+---------------+
+| emp_department | avg(salary) | count(emp_id) |
++----------------+-------------+---------------+
+| Sales          |  17500.0000 |             2 |
+| Marketing      |  42500.0000 |             2 |
++----------------+-------------+---------------+
+2 rows in set (0.00 sec)
+
+
+Get the total order amount per customer where the total amount is greater than 500.
+
+mysql> select cust_id,sum(total) from orders group by cust_id having sum(total)>2000;
++---------+------------+
+| cust_id | sum(total) |
++---------+------------+
+|       1 |    2500.00 |
+|       3 |    3000.00 |
+|       4 |    2500.00 |
++---------+------------+
+3 rows in set (0.00 sec)
+
+
+Find the products with total sales greater than 1000 units.
+
+mysql> select pro_name,sum(sal_amt) from sales group by pro_name having sum(sal_amt)>100;
++------------+--------------+
+| pro_name   | sum(sal_amt) |
++------------+--------------+
+| Product B  |       200.00 |
+| Product C  |       300.00 |
+| Product A  |       150.00 |
+| Product D  |       250.00 |
++------------+--------------+
+4 rows in set (0.00 sec)
+
+
+List all employees whose salary is greater than 50,000, grouped by department.
+Retrieve the number of orders per customer where the number of orders is greater than 5.
+Find employees with salaries above 70,000 and working in departments with more than 2 employees.
+Get the average revenue per product where the product has more than 100 sales.
+Find all customers who placed more than 3 orders.
+Retrieve the departments with the maximum salary greater than 100,000.
+
+
+4. Aggregate Functions
+
+Find the total revenue from the Sales table.
+Calculate the average salary of all employees.
+Find the minimum and maximum order amount from the Orders table.
+Get the count of all orders placed in 2024.
+Find the total number of products sold in 2024.
+Get the sum of all the quantities of products ordered.
+Retrieve the highest salary among all employees.
+Find the average order value for each customer.
+Get the total number of students in each grade.
+Find the total number of books borrowed in a month.
+
+
+5. JOINS
+
+
+Retrieve all employees and their department names using an inner join.
+Find all customers and the orders they placed (LEFT JOIN).
+Get all products and their corresponding categories (RIGHT JOIN).
+Retrieve customers who have not placed any orders (OUTER JOIN).
+Get a list of all orders and the products ordered (INNER JOIN).
+Find the employees working in the same department as another employee (SELF JOIN).
+Retrieve employees and their respective managers.
+Get all sales with the product name and salesperson name.
+List all orders with the customer name and product details.
+Retrieve customer and their latest order using a JOIN on Orders.
+
+
+
+8. Triggers
+
+
+
+Write a trigger that automatically updates the stock quantity after an order is placed.
+Create a trigger that logs every time a new product is added to the Products table.
+Write a trigger that prevents employees from being deleted if they are assigned to a project.
+Create a trigger that updates an employee’s last modified date when their record is updated.
+Write a trigger to prevent orders with a total amount of less than 100.
+Create a trigger that automatically inserts a log entry whenever an order is canceled.
+Write a trigger that ensures no employee can be inserted with a duplicate email.
+Write a trigger that deletes an order record when a related customer is deleted.
+Create a trigger to automatically adjust the price of a product when stock exceeds 1000 units.
+Write a trigger that updates a customer’s loyalty points whenever they place an order.
+
+
+
+9. Functions
+
+
+
+Create a function that returns the full name of an employee given their first and last names.
+Write a function that calculates the age of a person based on their birthdate.
+Create a function to get the day of the week for a given date.
+Write a function that returns the square of a number.
+Create a function that determines if a number is even or odd.
+Write a function to get the total price of an order including tax.
+Create a function to calculate the area of a circle given its radius.
+Write a function that formats a customer’s phone number in a specific format.
+Create a function that returns the longest word in a given string.
+Write a function that checks if a customer’s loyalty points exceed a certain threshold.
+
+
+
+10. Views
+
+
+Create a view that shows all employees and their departments.
+Write a view that lists customers and their order total for each month.
+Create a view to get product names and their respective suppliers.
+Write a view to show all orders placed in the last 30 days.
+Create a view to calculate the average salary per department.
+Create a view that displays the total sales by month.
+Write a view to get all products with sales greater than 100 units.
+Create a view that lists customers and their loyalty points.
+Create a view that combines customer, order, and product data.
+Write a view that lists employees who have been with the company for more than 10 years.
+
+
+
+create table trigcourse (course_id int,foreign key(course_id) references course(course_id),name varchar(50),fees int);
+
+
+
+
+   

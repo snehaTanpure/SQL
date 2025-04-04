@@ -1,0 +1,348 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| college_18_12      |
+| company            |
+| course             |
+| employee           |
+| employee1          |
+| information_schema |
+| junjuly2024        |
+| mysql              |
+| performance_schema |
+| sakila             |
+| salesman           |
+| sys                |
+| world              |
++--------------------+
+14 rows in set (0.07 sec)
+
+mysql> use junjuly2024;
+Database changed
+mysql> create table Department(dept_id int primary key,deptname varchar(200) not null,dept_block int not null );
+
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> desc Department;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| dept_id    | int          | NO   | PRI | NULL    |       |
+| deptname   | varchar(200) | NO   |     | NULL    |       |
+| dept_block | int          | NO   |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+3 rows in set (0.02 sec)
+
+mysql> create  table Project(pid int primary key,project_name var
+char(200) not null,loaction varchar(200) not null);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table employee2(empid int primary key,name varchar(200) not null,email varchar(200) not null unique , contact varchar(20) not null unique, salary int ,dept_id int, foreign key(dept_id) references Department(dept_id),pid int,foreign key(pid) references Project(pid));
+Query OK, 0 rows affected (0.13 sec)
+
+mysql> desc department;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| dept_id    | int          | NO   | PRI | NULL    |       |
+| deptname   | varchar(200) | NO   |     | NULL    |       |
+| dept_block | int          | NO   |     | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc project;
++--------------+--------------+------+-----+---------+-------+
+| Field        | Type         | Null | Key | Default | Extra |
++--------------+--------------+------+-----+---------+-------+
+| pid          | int          | NO   | PRI | NULL    |       |
+| project_name | varchar(200) | NO   |     | NULL    |       |
+| loaction     | varchar(200) | NO   |     | NULL    |       |
++--------------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> desc employee2;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| empid   | int          | NO   | PRI | NULL    |       |
+| name    | varchar(200) | NO   |     | NULL    |       |
+| email   | varchar(200) | NO   | UNI | NULL    |       |
+| contact | varchar(20)  | NO   | UNI | NULL    |       |
+| salary  | int          | YES  |     | NULL    |       |
+| dept_id | int          | YES  | MUL | NULL    |       |
+| pid     | int          | YES  | MUL | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> insert into department values(1,'DEV',101);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into department values(2,'PROD',102);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into department values(3,'TESTING',103);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into department values(4,'DEVLOPER',104);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into department values(5,'DEV',105);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Project values(1,'HOTEL Mang','mumbai');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into Project values(2,'BANK Mang','pune');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Project values(3,'handwriten Mang','Delhi');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into Project values(4,'HMS Mang','kolhapur');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee2 values(1,'sharu','sharu@gmail.com','9021578233',30000,2,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee2 values(2,'aaru','aaru@gmail.com','9121578233',35000,1,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee2 values(3,'tejas','tejas@gmail.com','9221578233',45000,3,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee2 values(4,'girish','girish@gmail.com','9321578233',40000,1,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee2 values(5,'kausthub','kaustbh@gmail.com','9421578233',25000,5,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee2 values(6,'kaveri','kaveri@gmail.com','9521578233',50000,3,3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into employee2 values(7,'doll','doll@gmail.com','9621578233',50000,2,4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employee2;
++-------+----------+-------------------+------------+--------+---------+------+
+| empid | name     | email             | contact    | salary | dept_id | pid  |
++-------+----------+-------------------+------------+--------+---------+------+
+|     1 | sharu    | sharu@gmail.com   | 9021578233 |  30000 |       2 |    3 |
+|     2 | aaru     | aaru@gmail.com    | 9121578233 |  35000 |       1 |    2 |
+|     3 | tejas    | tejas@gmail.com   | 9221578233 |  45000 |       3 |    4 |
+|     4 | girish   | girish@gmail.com  | 9321578233 |  40000 |       1 |    2 |
+|     5 | kausthub | kaustbh@gmail.com | 9421578233 |  25000 |       5 |    2 |
+|     6 | kaveri   | kaveri@gmail.com  | 9521578233 |  50000 |       3 |    3 |
+|     7 | doll     | doll@gmail.com    | 9621578233 |  50000 |       2 |    4 |
++-------+----------+-------------------+------------+--------+---------+------+
+7 rows select * from Project;
++-----+-----------------+----------+
+| pid | project_name    | loaction |
++-----+-----------------+----------+
+|   1 | HOTEL Mang      | mumbai   |
+|   2 | BANK Mang       | pune     |
+|   3 | handwriten Mang | Delhi    |
+|   4 | HMS Mang        | kolhapur |
++-----+-----------------+----------+
+4 rows in set (0.00 sec)
+
+mysql> select * from department;;
++---------+----------+------------+
+| dept_id | deptname | dept_block |
++---------+----------+------------+
+|       1 | DEV      |        101 |
+|       2 | PROD     |        102 |
+|       3 | TESTING  |        103 |
+|       4 | DEVLOPER |        104 |
+|       5 | DEV      |        105 |
++---------+----------+------------+
+5 rows in set (0.00 sec)
+
+
+________________________________________________________________________________________________________________________________________________
+Q1. WA SQL Query to find the employee who is not working on a project using subquery?
+________________________________________________________________________________________________________________________________________________
+mysql> select count(pid) from employee2 group by pid having count(pid)>1;
++------------+
+| count(pid) |
++------------+
+|          3 |
+|          2 |
+|          2 |
++------------+
+3 rows in set (0.01 sec)
+
+mysql> select count(pid) from employee2 group by pid having count(pid)<1;
+Empty set (0.00 sec)
+
+mysql> select pid,count(pid) from employee2 group by pid having count(pid)<1;
+Empty set (0.00 sec)
+
+mysql> select pid,count(pid) from employee2 group by pid having count(pid)>1;
++------+------------+
+| pid  | count(pid) |
++------+------------+
+|    2 |          3 |
+|    3 |          2 |
+|    4 |          2 |
++------+------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into employee2 values(8,'hital','hital@gmail.com','9721578233',50000,4,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select pid,count(pid) from employee2 group by pid having count(pid)>1;
++------+------------+
+| pid  | count(pid) |
++------+------------+
+|    2 |          3 |
+|    3 |          2 |
+|    4 |          2 |
++------+------------+
+3 rows in set (0.00 sec)
+
+mysql> select pid,count(pid) from employee2 group by pid having count(pid)<1;
+Empty set (0.00 sec)
+
+mysql> select pid,count(pid) from employee2 group by pid having count(pid)<=1;
++------+------------+
+| pid  | count(pid) |
++------+------------+
+|    1 |          1 |
++------+------------+
+1 row in set (0.00 sec)
+
+mysql> select * from employee2 where (select pid from employee2 group by pid having count(pid)=0);
+Empty set (0.03 sec)
+
+mysql> select * from employee2 where empid not in (select empid from employee2 where pid is not null);
+Empty set (0.01 sec)
+
+mysql> select * from employee2 where empid not in (select empid from employee2 where pid is not null);
++-------+----------+---------------+------------+--------+---------+------+
+| empid | name     | email         | contact    | salary | dept_id | pid  |
++-------+----------+---------------+------------+--------+---------+------+
+|     9 | pronisha | pro@gmail.com | 9821578233 |  45000 |    NULL | NULL |
++-------+----------+---------------+------------+--------+---------+------+
+1 row in set (0.00 sec)
+_______________________________________________________________________________________________________________________________________________
+
+Q2. WA SQL Query to delete the employee who belongs from the same dept?
+________________________________________________________________________________________________________________________________________________
+mysql> select dept_id,count(dept_id) from employee2 group by dept_id having count(dept_id)>1;
++---------+----------------+
+| dept_id | count(dept_id) |
++---------+----------------+
+|       1 |              2 |
+|       2 |              2 |
+|       3 |              2 |
++---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> select dept_id,count(dept_id) from employee2 group by dept_id having count(dept_id)=1;
++---------+----------------+
+| dept_id | count(dept_id) |
++---------+----------------+
+|       4 |              1 |
+|       5 |              1 |
++---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> select * from employee2 where dept_id in(select dept_id from employee2 group by dept_id having count(dept_id)>1);
++-------+--------+------------------+------------+--------+---------+------+
+| empid | name   | email            | contact    | salary | dept_id | pid  |
++-------+--------+------------------+------------+--------+---------+------+
+|     1 | sharu  | sharu@gmail.com  | 9021578233 |  30000 |       2 |    3 |
+|     2 | aaru   | aaru@gmail.com   | 9121578233 |  35000 |       1 |    2 |
+|     3 | tejas  | tejas@gmail.com  | 9221578233 |  45000 |       3 |    4 |
+|     4 | girish | girish@gmail.com | 9321578233 |  40000 |       1 |    2 |
+|     6 | kaveri | kaveri@gmail.com | 9521578233 |  50000 |       3 |    3 |
+|     7 | doll   | doll@gmail.com   | 9621578233 |  50000 |       2 |    4 |
++-------+--------+------------------+------------+--------+---------+------+
+6 rows in set (0.00 sec)
+________________________________________________________________________________________________________________________________________________
+Q3. update the employee pid column with project name LMS and whose employee id is 5 
+________________________________________________________________________________________________________________________________________________
+mysql> update employee2 set pid=(select pid from project where project_name='MNO') where empid=5
+;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from employee2;
++-------+----------+-------------------+------------+--------+---------+------+
+| empid | name     | email             | contact    | salary | dept_id | pid  |
++-------+----------+-------------------+------------+--------+---------+------+
+|     1 | sharu    | sharu@gmail.com   | 9021578233 |  30000 |       2 |    3 |
+|     2 | aaru     | aaru@gmail.com    | 9121578233 |  35000 |       1 |    2 |
+|     3 | tejas    | tejas@gmail.com   | 9221578233 |  45000 |       3 |    4 |
+|     4 | girish   | girish@gmail.com  | 9321578233 |  40000 |       1 |    2 |
+|     5 | kausthub | kaustbh@gmail.com | 9421578233 |  25000 |       5 |    5 |
+|     6 | kaveri   | kaveri@gmail.com  | 9521578233 |  50000 |       3 |    3 |
+|     7 | doll     | doll@gmail.com    | 9621578233 |  50000 |       2 |    4 |
+|     8 | hital    | hital@gmail.com   | 9721578233 |  50000 |       4 |    1 |
+|     9 | pronisha | pro@gmail.com     | 9821578233 |  45000 |    NULL | NULL |
++-------+----------+-------------------+------------+--------+---------+------+
+9 rows in set (0.00 sec)
+_______________________________________________________________________________________________________________________________________________
+Q4. Find the employee whose pid is 1 and salary is greater than ram whose employee id 1 
+_______________________________________________________________________________________________________________________________________________
+
+mysql> select * from employee2 where pid=1 And salary>(select salary from employee2 where name='tejas');
++-------+-------+-----------------+------------+--------+---------+------+
+| empid | name  | email           | contact    | salary | dept_id | pid  |
++-------+-------+-----------------+------------+--------+---------+------+
+|     8 | hital | hital@gmail.com | 9721578233 |  50000 |       4 |    1 |
++-------+-------+-----------------+------------+--------+---------+------+
+1 row in set (0.01 sec)
+________________________________________________________________________________________________________________________________________________
+Q5. WA SQL query to display the project belong from same city
+
+mysql> select * from project where loaction=(select loaction from project group by loaction having count(loaction)>1);
++-----+-----------------+----------+
+| pid | project_name    | loaction |
++-----+-----------------+----------+
+|   3 | handwriten Mang | Delhi    |
+|   5 | MNO             | Delhi    |
++-----+-----------------+----------+
+2 rows in set (0.01 sec)
+
+mysql> insert into project values(6,'OPQ','pune');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from project where loaction IN(select loaction from project group by loaction ha
+ving count(loaction)>1);
++-----+-----------------+----------+
+| pid | project_name    | loaction |
++-----+-----------------+----------+
+|   2 | BANK Mang       | pune     |
+|   3 | handwriten Mang | Delhi    |
+|   5 | MNO             | Delhi    |
+|   6 | OPQ             | pune     |
++-----+-----------------+----------+
+4 rows in set (0.00 sec)
+
+______________________________________________________________________________________________________________________________________________
+Q6. WA SQL query to display the project in which more than one employee from the same dept?
+_____________________________________________________________________________________________________________________________________________
+
+mysql> select project_name from project where pid IN (select dept_id from employee2 group by dept_id having count(dept_id)>=1);
++-----------------+
+| project_name    |
++-----------------+
+| HOTEL Mang      |
+| BANK Mang       |
+| handwriten Mang |
+| HMS Mang        |
+| MNO             |
++-----------------+
+5 rows in set (0.00 sec)
+
+________________________________________________________________________________________________________________________________________________
+Q7. WA SQL query to delete the project in which a single employee is working?
+_______________________________________________________________________________________________________________________________________________
+
+
+
+
+______*____________*___________________*____________________*_______________*______________________*______________*__________________*_________*

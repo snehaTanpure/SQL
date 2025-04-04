@@ -1,0 +1,154 @@
+Q1.Write a  MySQL query to find the name (first_name, last_name) and the salary of the employees who have a higher salary than the employee whose last_name='Bull'.
+Q2.Write a  MySQL query to find the name (first_name, last_name) of all employees who works in the IT department.
+
+Q3.Write a  MySQL query to find the name (first_name, last_name) of the employees who have a manager and worked in a USA based department.
+Q4.Write a  MySQL query to find the name (first_name, last_name) of the employees who are managers.
+
+
+
+
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| second_revision    |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> use second_revision;
+Database changed
+mysql> show tables;
++---------------------------+
+| Tables_in_second_revision |
++---------------------------+
+| admission                 |
+| doctor                    |
+| doctors                   |
+| employee                  |
+| events                    |
+| patients                  |
+| province                  |
++---------------------------+
+7 rows in set (0.00 sec)
+
+mysql> create database 13_jan_2025;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use 13_jan_2025;
+Database changed
+
+mysql> create table regions (Region_id int primary key, Region_name varchar(200));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table Country (country_id int primary key, country_name varchar(200), region_id int, foreign key(region_id) references regions(region_id) on delete cascade on update cascade);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table locations (location_id int primary key,street_address varchar(200), postal_code varchar(200),city varchar(100),state_province varchar(200),country_id int , foreign key(country_id) references country(country_id) ondelete cascade on update cascade);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table department (department_id int primary key, department_name varchar(200), manager_id int, location_id int, foreign key(location_id) references locations(location_id) on delete set null on update cascade);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> create table jobs(job_id int primary key,job_title varchar(200), min_salary int ,max_salary int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table job_history(employee_id int primary key,start_date date, end_date date, job_id int, foreign key(job_id) references  jobs(job_id) on delete set null on update cascade,department_id int, foreign key(department_id) references department(department_id) on delete set null on update cascade);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table employees (employee_id int, foreign key(employee_id) references job_history(employee_id) on delete set null on update cascade, first_name varchar(200),last_name varchar(200),Email varchar(200) not null unique,phone_number varchar(200),Hire_date date, job_id int, foreign key (job_id) references jobs(job_id) on delete set null on update cascade ,salary int, commision_pct int,manager_id int, department_id int , foreign key (department_id) references  department(department_id) on delete set null on update cascade);
+Query OK, 0 rows affected (0.06 sec)
+
+
+
+
+
+mysql> select * from employees;
++-------------+------------+-----------+----------------------------+--------------+------------+--------+--------+---------------+------------+---------------+
+| employee_id | first_name | last_name | Email                      | phone_number | Hire_date  | job_id | salary | commision_pct | manager_id | department_id |
++-------------+------------+-----------+----------------------------+--------------+------------+--------+--------+---------------+------------+---------------+
+|           4 | Alice      | Williams  | alice.williams@example.com | 555-4321     | 2020-02-05 |      4 |  67000 |             0 |        104 |             4 |
+|           5 | David      | Brown     | david.brown@example.com    | 555-6789     | 2022-01-25 |      5 |  55000 |             0 |        105 |             5 |
+|           2 | Jane       | Smith     | jane.smith@example.com     | 555-5678     | 2019-08-20 |      2 |  75000 |             0 |        102 |             2 |
+|           1 | John       | Doe       | john.doe@example.com       | 555-1234     | 2020-03-15 |      1 |  85000 |             0 |        101 |             1 |
+|           3 | Mike       | Johnson   | mike.johnson@example.com   | 555-8765     | 2021-06-10 |      3 |  95000 |             0 |        103 |             3 |
++-------------+------------+-----------+----------------------------+--------------+------------+--------+--------+---------------+------------+---------------+
+5 rows in set (0.00 sec)
+
+mysql> select salary from employees where last_name="smith";
++--------+
+| salary |
++--------+
+|  75000 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select first_name,last_name from employees where salary > ( select salary from employees where last_name="smith");
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| John       | Doe       |
+| Mike       | Johnson   |
++------------+-----------+
+2 rows in set (0.00 sec)
+
+_____________________________________________________________________________________________________________________________________________________________________________________________
+Q1.Write a  MySQL query to find the name (first_name, last_name) and the salary of the employees who have a higher salary than the employee whose last_name='Bull'.
+
+mysql> select first_name,last_name,salary from employees where salary > ( select salary from employees where last_name="smith";
++------------+-----------+--------+
+| first_name | last_name | salary |
++------------+-----------+--------+
+| John       | Doe       |  85000 |
+| Mike       | Johnson   |  95000 |
++------------+-----------+--------+
+2 rows in set (0.00 sec)
+_____________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+
+Q2.Write a  MySQL query to find the name (first_name, last_name) of all employees who works in the IT department.
+
+mysql> select first_name,last_name from employees e inner join department d on e.department_id=d.department_id where department_name="It support";
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| Jane       | Smith     |
++------------+-----------+
+1 row in set (0.00 sec)
+
+________________________||_________________________________||_______________________________________________||__________________________________________________||__________________________
+
+Q3.Write a  MySQL query to find the name (first_name, last_name) of the employees who have a manager and worked in a USA based department.
+
+
+
+
+
+____________________________________________________________________________________________________________________________________________________________________________________________
+Q4.Write a  MySQL query to find the name (first_name, last_name) of the employees who are managers.
+
+mysql> select first_name,last_name from employees e inner join department d on e.manager_id=d.manager_id;
++------------+-----------+
+| first_name | last_name |
++------------+-----------+
+| John       | Doe       |
+| Jane       | Smith     |
+| Mike       | Johnson   |
+| Alice      | Williams  |
+| David      | Brown     |
++------------+-----------+
+5 rows in set (0.00 sec)
+
+_________________________________________________________________________________________________________________________________________________________________________________________
+
+
+
+

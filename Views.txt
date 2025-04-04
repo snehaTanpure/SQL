@@ -1,0 +1,114 @@
+10. Views
+
+
+
+mysql> select * from employees;
++--------+-------------+----------------+--------------+--------+
+| Emp_ID | Emp_name    | Emp_department | Emp_hiredate | Salary |
++--------+-------------+----------------+--------------+--------+
+|      1 | John Smith  | Sales          | 2020-01-01   | 125000 |
+|      2 | Jane Doe    | Marketing      | 2020-06-01   |  40000 |
+|      3 | Bob Johnson | Sales          | 2021-01-01   | 125000 |
+|      4 | Alice Brown | Marketing      | 2021-06-01   | 125000 |
+|      6 | sneha       | computer       | 2002-12-04   | 125000 |
++--------+-------------+----------------+--------------+--------+
+5 rows in set (0.00 sec)
+
+
+
+Create a view that shows all employees and their departments.
+
+mysql> create view view1 as select Emp_id,Emp_name,Emp_department from employees;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> select * from view1;
++--------+-------------+----------------+
+| Emp_id | Emp_name    | Emp_department |
++--------+-------------+----------------+
+|      1 | John Smith  | Sales          |
+|      2 | Jane Doe    | Marketing      |
+|      3 | Bob Johnson | Sales          |
+|      4 | Alice Brown | Marketing      |
+|      6 | sneha       | computer       |
++--------+-------------+----------------+
+5 rows in set (0.01 sec)
+
+
+Write a view that lists customers and their order total for each month.
+
+
+Create a view to get product names and their respective suppliers.
+
+
+
+Write a view to show all orders placed in the last 30 days.
+
+
+Create a view to calculate the average salary per department.
+
+mysql> create view view1 as select * from employees;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>  select * from view1;
++--------+-------------+----------------+--------------+--------+
+| Emp_ID | Emp_name    | Emp_department | Emp_hiredate | Salary |
++--------+-------------+----------------+--------------+--------+
+|      1 | John Smith  | Sales          | 2020-01-01   | 125000 |
+|      2 | Jane Doe    | Marketing      | 2020-06-01   |  40000 |
+|      3 | Bob Johnson | Sales          | 2021-01-01   | 125000 |
+|      4 | Alice Brown | Marketing      | 2021-06-01   | 125000 |
+|      6 | sneha       | computer       | 2002-12-04   | 125000 |
++--------+-------------+----------------+--------------+--------+
+5 rows in set (0.00 sec)
+
+mysql> select emp_department,avg(salary) from view1 group by emp_department;
++----------------+-------------+
+| Emp_department | avg(salary) |
++----------------+-------------+
+| Sales          | 125000.0000 |
+| Marketing      |  82500.0000 |
+| computer       | 125000.0000 |
++----------------+-------------+
+3 rows in set (0.00 sec)
+
+
+Create a view that displays the total sales by month.
+
+
+
+
+
+
+Write a view to get all products with sales greater than 100 units.
+
+mysql> create view view2 as select * from sales;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>  select * from view2;
++--------+--------+------------+------------+------+---------+
+| Sal_ID | Emp_ID | Sal_Date   | Pro_Name   | Qua  | Sal_amt |
++--------+--------+------------+------------+------+---------+
+|      1 |      1 | 2022-01-01 | Product A  |   10 |  100.00 |
+|      2 |      2 | 2022-01-15 | Product B  |   20 |  200.00 |
+|      3 |      3 | 2022-02-01 | Product C  |   30 |  300.00 |
+|      4 |      1 | 2022-03-01 | Product A  |   15 |  150.00 |
+|      5 |      4 | 2022-04-01 | Product D  |   25 |  250.00 |
++--------+--------+------------+------------+------+---------+
+5 rows in set (0.00 sec)
+
+mysql> select pro_name,sal_amt from view2 where sal_amt>200;
++------------+---------+
+| Pro_Name   | Sal_amt |
++------------+---------+
+| Product C  |  300.00 |
+| Product D  |  250.00 |
++------------+---------+
+2 rows in set (0.00 sec)
+
+
+Create a view that lists customers and their loyalty points.
+
+Create a view that combines customer, order, and product data.
+
+Write a view that lists employees who have been with the company for more than 10 years.
+

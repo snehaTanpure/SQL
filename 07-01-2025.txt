@@ -1,0 +1,242 @@
+Q1. Create database name as second_revision
+-------------------------------------------------
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| second_revision    |
+| sys                |
+| world              |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> use second_revision;
+Database changed
+
+
+Q2. Create table name Doctor with following column and constraints 
+---------------------------------------------------------------------
+mysql> create table doctor (id int(5) primary key,name varchar(200) not null,email varchar(200)not null unique,contact varchar(200) not null unique,Bdgree varchar(200) not null,age int(5) not null,salary int(5) ) ;
+Query OK, 0 rows affected, 3 warnings (0.07 sec)
+
+mysql> desc doctor;
++---------+--------------+------+-----+---------+-------+
+| Field   | Type         | Null | Key | Default | Extra |
++---------+--------------+------+-----+---------+-------+
+| id      | int          | NO   | PRI | NULL    |       |
+| name    | varchar(200) | NO   |     | NULL    |       |
+| email   | varchar(200) | NO   | UNI | NULL    |       |
+| contact | varchar(200) | NO   | UNI | NULL    |       |
+| Bdgree  | varchar(200) | NO   |     | NULL    |       |
+| age     | int          | NO   |     | NULL    |       |
+| salary  | int          | YES  |     | NULL    |       |
++---------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+Q2. drop the age column from the above table?
+------------------------------------------------------------
+mysql> alter table doctor drop column age;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Q3. rename salary column from doctor salary?
+------------------------------------------------------------
+mysql> alter table doctor rename column salary to doctor_salary;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc doctor;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| id            | int          | NO   | PRI | NULL    |       |
+| name          | varchar(200) | NO   |     | NULL    |       |
+| email         | varchar(200) | NO   | UNI | NULL    |       |
+| contact       | varchar(200) | NO   | UNI | NULL    |       |
+| Bdgree        | varchar(200) | NO   |     | NULL    |       |
+| doctor_salary | int          | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+
+Q1. add pgdegree column in table with data type varchar with size 200?
+----------------------------------------------------------------------------
+mysql> alter table doctor add pgdegree varchar(200);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc doctor;
++---------------+--------------+------+-----+---------+-------+
+| Field         | Type         | Null | Key | Default | Extra |
++---------------+--------------+------+-----+---------+-------+
+| id            | int          | NO   | PRI | NULL    |       |
+| name          | varchar(200) | NO   |     | NULL    |       |
+| email         | varchar(200) | NO   | UNI | NULL    |       |
+| contact       | varchar(200) | NO   | UNI | NULL    |       |
+| Bdgree        | varchar(200) | NO   |     | NULL    |       |
+| doctor_salary | int          | YES  |     | NULL    |       |
+| pgdegree      | varchar(200) | YES  |     | NULL    |       |
++---------------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+
+mysql> insert into doctor values(1,'sneha','sneha@gmail.com','9021578233','100',50000,'MSSC');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into doctor values(2,'sharu','sharu@gmail.com','9121578233','200',60000,'MSSC');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into doctor values(3,'aaru','aaru@gmail.com','9221578233','300',10000,'MSSC');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into doctor values(4,'ridhvi','ridhvi@gmail.com','9321578233','400',30000,'MSS');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into doctor values(5,'isha','isha@gmail.com','9421578233','500',10000,'MSsS');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into doctor values(6,'nilu','nilu@gmail.com','9521578233','400',80000,'MSsS');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into doctor values(7,'seju','seju@gmail.com','9621578233','800',90000,'MSsS');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into doctor values(8,'anu','anu@gmail.com','9721578233','200',11000,'MSsS');
+Query OK, 1 row affected (0.01 sec)
+
+Q4. insert 10 records in the doctor table?
+---------------------------------------------------
+mysql> select * from doctor;
++----+--------+------------------+------------+--------+---------------+----------+
+| id | name   | email            | contact    | Bdgree | doctor_salary | pgdegree |
++----+--------+------------------+------------+--------+---------------+----------+
+|  1 | sneha  | sneha@gmail.com  | 9021578233 | 100    |         50000 | MSSC     |
+|  2 | sharu  | sharu@gmail.com  | 9121578233 | 200    |         60000 | MSSC     |
+|  3 | aaru   | aaru@gmail.com   | 9221578233 | 300    |         10000 | MSSC     |
+|  4 | ridhvi | ridhvi@gmail.com | 9321578233 | 400    |         30000 | MSS      |
+|  5 | isha   | isha@gmail.com   | 9421578233 | 500    |         10000 | MSsS     |
+|  6 | nilu   | nilu@gmail.com   | 9521578233 | 400    |         80000 | MSsS     |
+|  7 | seju   | seju@gmail.com   | 9621578233 | 800    |         90000 | MSsS     |
+|  8 | anu    | anu@gmail.com    | 9721578233 | 200    |         11000 | MSsS     |
++----+--------+------------------+------------+--------+---------------+----------+
+8 rows in set (0.00 sec)
+
+Q6. fetch salary wise doctor count?
+--------------------------------------------------
+mysql> select doctor_salary,count(doctor_salary) from doctor group by doctor_salary order by
+ doctor_salary;
++---------------+----------------------+
+| doctor_salary | count(doctor_salary) |
++---------------+----------------------+
+|         10000 |                    2 |
+|         11000 |                    1 |
+|         30000 |                    1 |
+|         50000 |                    1 |
+|         60000 |                    1 |
+|         80000 |                    1 |
+|         90000 |                    1 |
++---------------+----------------------+
+7 rows in set (0.00 sec)
+
+Q7. fetch a doctor whose name is more than 5 letters and start with r and ends with sh?
+-------------------------------------------------------------------------------------------
+
+mysql> select * from doctor where length(name)>5 and name like 'r%i';
++----+--------+------------------+------------+--------+---------------+----------+
+| id | name   | email            | contact    | Bdgree | doctor_salary | pgdegree |
++----+--------+------------------+------------+--------+---------------+----------+
+|  4 | ridhvi | ridhvi@gmail.com | 9321578233 | 400    |         30000 | MSS      |
++----+--------+------------------+------------+--------+---------------+----------+
+1 row in set (0.00 sec)
+
+Q8. Fetch a doctor whose salary is 10000,50000,30000,60000?
+----------------------------------------------------------------------------
+mysql> select * from doctor where doctor_salary in(10000,50000,30000,60000);
++----+--------+------------------+------------+--------+---------------+----------+
+| id | name   | email            | contact    | Bdgree | doctor_salary | pgdegree |
++----+--------+------------------+------------+--------+---------------+----------+
+|  1 | sneha  | sneha@gmail.com  | 9021578233 | 100    |         50000 | MSSC     |
+|  2 | sharu  | sharu@gmail.com  | 9121578233 | 200    |         60000 | MSSC     |
+|  3 | aaru   | aaru@gmail.com   | 9221578233 | 300    |         10000 | MSSC     |
+|  4 | ridhvi | ridhvi@gmail.com | 9321578233 | 400    |         30000 | MSS      |
+|  5 | isha   | isha@gmail.com   | 9421578233 | 500    |         10000 | MSsS     |
++----+--------+------------------+------------+--------+---------------+----------+
+5 rows in set (0.00 sec)
+
+Q9. Fetch doctor whose salary is between 10000 to 50000?
+--------------------------------------------------------------------------
+mysql> select * from doctor where doctor_salary between 10000 and 50000;
++----+--------+------------------+------------+--------+---------------+----------+
+| id | name   | email            | contact    | Bdgree | doctor_salary | pgdegree |
++----+--------+------------------+------------+--------+---------------+----------+
+|  1 | sneha  | sneha@gmail.com  | 9021578233 | 100    |         50000 | MSSC     |
+|  3 | aaru   | aaru@gmail.com   | 9221578233 | 300    |         10000 | MSSC     |
+|  4 | ridhvi | ridhvi@gmail.com | 9321578233 | 400    |         30000 | MSS      |
+|  5 | isha   | isha@gmail.com   | 9421578233 | 500    |         10000 | MSsS     |
+|  8 | anu    | anu@gmail.com    | 9721578233 | 200    |         11000 | MSsS     |
++----+--------+------------------+------------+--------+---------------+----------+
+5 rows in set (0.00 sec)
+
+mysql> select  max(doctor_salary) from doctor;
++--------------------+
+| max(doctor_salary) |
++--------------------+
+|              90000 |
++--------------------+
+1 row in set (0.01 sec)
+
+Q10.fetch maximum and minimum salary of doctor?
+-----------------------------------------------------------------------
+mysql> select  max(doctor_salary),min(doctor_salary) from doctor;
++--------------------+--------------------+
+| max(doctor_salary) | min(doctor_salary) |
++--------------------+--------------------+
+|              90000 |              10000 |
++--------------------+--------------------+
+1 row in set (0.00 sec)
+
+Q11. fetch average salary of doctor?
+---------------------------------------------------------------------
+mysql> select  avg(doctor_salary) as average_salary from doctor;
++----------------+
+| average_salary |
++----------------+
+|     42625.0000 |
++----------------+
+1 row in set (0.00 sec)
+
+Q12. count the total number of doctors from the table?
+-------------------------------------------------------------------
+mysql> select  count(id) as total_number_doctor from doctor;
++---------------------+
+| total_number_doctor |
++---------------------+
+|                   8 |
++---------------------+
+1 row in set (0.01 sec)
+
+Q13. delete the doctor whose salary is greater than 10000 and count of doctor more than 3 whose salary is 10000?
+-------------------------------------------------------------------------------------------------------------------
+mysql>  delete from doctor where doctor_salary>50000;
+Query OK, 3 rows affected (0.02 sec)
+
+mysql> select * from doctor;
++----+--------+------------------+------------+--------+---------------+----------+
+| id | name   | email            | contact    | Bdgree | doctor_salary | pgdegree |
++----+--------+------------------+------------+--------+---------------+----------+
+|  1 | sneha  | sneha@gmail.com  | 9021578233 | 100    |         50000 | MSSC     |
+|  3 | aaru   | aaru@gmail.com   | 9221578233 | 300    |         10000 | MSSC     |
+|  4 | ridhvi | ridhvi@gmail.com | 9321578233 | 400    |         30000 | MSS      |
+|  5 | isha   | isha@gmail.com   | 9421578233 | 500    |         10000 | MSsS     |
+|  8 | anu    | anu@gmail.com    | 9721578233 | 200    |         11000 | MSsS     |
++----+--------+------------------+------------+--------+---------------+----------+
+5 rows in set (0.00 sec)
+
+
+
+
+

@@ -1,0 +1,460 @@
+mysql> use second_revision;
+Database changed
+
+mysql> show tables;
++---------------------------+
+| Tables_in_second_revision |
++---------------------------+
+| admissions                |
+| doctor                    |
+| doctor1                   |
+| patients                  |
+| province                  |
++---------------------------+
+5 rows in set (0.00 sec)
+
+mysql> desc doctor1;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| doctor_id  | int         | NO   | PRI | NULL    |       |
+| first_name | varchar(30) | YES  |     | NULL    |       |
+| last_name  | varchar(30) | YES  |     | NULL    |       |
+| specialty  | varchar(25) | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc province;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| province_id   | int         | NO   | PRI | NULL    |       |
+| province_name | varchar(30) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc admissions;
++---------------------+-------------+------+-----+---------+-------+
+| Field               | Type        | Null | Key | Default | Extra |
++---------------------+-------------+------+-----+---------+-------+
+| patient_id          | int         | NO   | PRI | NULL    |       |
+| admission_date      | date        | YES  |     | NULL    |       |
+| discharge_date      | date        | YES  |     | NULL    |       |
+| diagnosis           | varchar(50) | YES  |     | NULL    |       |
+| attending_doctor_id | int         | YES  |     | NULL    |       |
++---------------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql>  drop table patients;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table admissions(patient_id int primary key,admission_date date,discharge_date date , diagnosis varchar(50),attending_doctor_id int,foreign key(attending_doctor_id) references doctor1(attending_doctor_id));
+ERROR 1050 (42S01): Table 'admissions' already exists
+
+mysql> drop table admissions;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table admissions(patient_id int primary key,admission_date date,discharge_date date , diagnosis varchar(50),attending_doctor_id int,foreign key(attending_doctor_id) references doctor1(attending_doctor_id));
+ERROR 3734 (HY000): Failed to add the foreign key constraint. Missing column 'attending_doctor_id' for constraint 'admissions_ibfk_1'in the referenced table 'doctor1'
+mysql> create table admissions(patient_id int primary key,admission_date date,discharge_date date , diagnosis varchar(50),doctor_id int,foreign key(doctor_id) references doctor
+1(doctor_id));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc admissions;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| patient_id     | int         | NO   | PRI | NULL    |       |
+| admission_date | date        | YES  |     | NULL    |       |
+| discharge_date | date        | YES  |     | NULL    |       |
+| diagnosis      | varchar(50) | YES  |     | NULL    |       |
+| doctor_id      | int         | YES  | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create table patients(patient_id int ,foreign key(patient_id) references admissions(patient_id),first_name varchar(30),last_name varchar(30),gender varchar(30),birth_date date,city varchar(50),province_id int,foreign key (province_id) references province(province_id),allergies varchar(80),height int ,weight int);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc patients;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| patient_id  | int         | YES  | MUL | NULL    |       |
+| first_name  | varchar(30) | YES  |     | NULL    |       |
+| last_name   | varchar(30) | YES  |     | NULL    |       |
+| gender      | varchar(30) | YES  |     | NULL    |       |
+| birth_date  | date        | YES  |     | NULL    |       |
+| city        | varchar(50) | YES  |     | NULL    |       |
+| province_id | int         | YES  | MUL | NULL    |       |
+| allergies   | varchar(80) | YES  |     | NULL    |       |
+| height      | int         | YES  |     | NULL    |       |
+| weight      | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> select * from doctor1;
++-----------+------------+-----------+-----------+
+| doctor_id | first_name | last_name | specialty |
++-----------+------------+-----------+-----------+
+|         1 | sneha      | Tanpure   | ABC       |
+|         2 | Shreyash   | Mokashi   | ABC       |
+|         3 | Shreyash   | Tarde     | MNO       |
+|         4 | Aaksh      | ubhe      | opq       |
+|         5 | sakshi     | gaikwad   | stw       |
+|         6 | shree      | punekar   | stw       |
++-----------+------------+-----------+-----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from province;
++-------------+---------------+
+| province_id | province_name |
++-------------+---------------+
+|           1 | sharu         |
+|           2 | aaru          |
+|           3 | sejal         |
+|           4 | nilu          |
+|           5 | isha          |
+|           6 | gargi         |
++-------------+---------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from admissions;
+Empty set (0.00 sec)
+
+mysql> insert into admissions values(1,'2002-12-4','2024-1-6','MNO',3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admissions values(2,'2022-5-4','2023-4-7','pNO',2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admissions values(3,'2029-3-14','2020-6-17','XYZ',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admissions values(4,'2035-4-14','2020-3-17','Xxz',2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admissions values(5,'2015-4-14','2026-3-17','Xz',6);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into admissions values(6,'2015-4-14','2026-3-17','Xz',5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admissions values(7,'2022-3-14','2025-3-17','eeXz',4);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into admissions values(8,'2002-3-14','2005-3-17','eeXz',3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from admissions;
++------------+----------------+----------------+-----------+-----------+
+| patient_id | admission_date | discharge_date | diagnosis | doctor_id |
++------------+----------------+----------------+-----------+-----------+
+|          1 | 2002-12-04     | 2024-01-06     | MNO       |         3 |
+|          2 | 2022-05-04     | 2023-04-07     | pNO       |         2 |
+|          3 | 2029-03-14     | 2020-06-17     | XYZ       |         1 |
+|          4 | 2035-04-14     | 2020-03-17     | Xxz       |         2 |
+|          5 | 2015-04-14     | 2026-03-17     | Xz        |         6 |
+|          6 | 2015-04-14     | 2026-03-17     | Xz        |         5 |
+|          7 | 2022-03-14     | 2025-03-17     | eeXz      |         4 |
+|          8 | 2002-03-14     | 2005-03-17     | eeXz      |         3 |
++------------+----------------+----------------+-----------+-----------+
+8 rows in set (0.00 sec)
+
+mysql> select * from patients;
+Empty set (0.00 sec)
+
+mysql> insert into patients values(1,'monali','tanpure','female','2002-4-2','pune',3,'abc',15,10);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into patients values(2,'renuka','renuse','female','2022-2-5','nashik',6,'abc',12,11);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into patients values(3,'aavdut','renuse','male','2020-8-3','nagpur'
+,4,'mnb',7,9);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into patients values(4,'pranit','deshmukh','male','2026-8-3','nagpu
+r',3,'mnb',5,9);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into patients values(5,'tejas','dalvi','male','2021-2-3','mumbai',2
+,'mnb',21,14);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into patients values(6,'kavya','parathe','female','2001-2-3','mumba
+i',2,'mnb',21,14);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into patients values(7,'kavya','patne','female','2001-2-3','mumbai'
+,3,'tnb',20,15);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into patients values(8,'dhiraj','patne','male','2045-8-13','solapur
+',5,'trb',12,8);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from patients;
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city    | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+|          1 | monali     | tanpure   | female | 2002-04-02 | pune    |
+ 3 | abc       |     15 |     10 |
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik  |
+ 6 | abc       |     12 |     11 |
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur  |
+ 4 | mnb       |      7 |      9 |
+|          4 | pranit     | deshmukh  | male   | 2026-08-03 | nagpur  |
+ 3 | mnb       |      5 |      9 |
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai  |
+ 2 | mnb       |     21 |     14 |
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai  |
+ 2 | mnb       |     21 |     14 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai  |
+ 3 | tnb       |     20 |     15 |
+|          8 | dhiraj     | patne     | male   | 2045-08-13 | solapur |
+ 5 | trb       |     12 |      8 |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+8 rows in set (0.00 sec)
+
+Q1. selects all fields from "patients" where first_name is "John" AND city is "Toronto"
+---------------------------------------------------------------------------------------------
+
+mysql> select * from patients where  first_name='aavdut' and city='nagpur';
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur |           4 | mnb       |      7 |      9 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+1 row in set (0.00 sec)
+
+Q2. SQL statement selects all fields from "patients" where city is "Hamilton" OR "Toronto":
+-----------------------------------------------------------------------------------------------
+mysql> select * from patients where   city in('nagpur','pune');
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          1 | monali     | tanpure   | female | 2002-04-02 | pune   |           3 | abc       |     15 |     10 |
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur |           4 | mnb       |      7 |      9 |
+|          4 | pranit     | deshmukh  | male   | 2026-08-03 | nagpur |           3 | mnb       |      5 |      9 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+3 rows in set (0.00 sec)
+
+mysql> select * from patients where   city in('nagpur','mumbai');
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur |           4 | mnb       |      7 |      9 |
+|          4 | pranit     | deshmukh  | male   | 2026-08-03 | nagpur |           3 | mnb       |      5 |      9 |
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai |           2 | mnb       |     21 |     14 |
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai |           2 | mnb       |     21 |     14 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai |           3 | tnb       |     20 |     15 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+5 rows in set (0.00 sec)
+
+Q3. selects all fields from "patients" where province_id is NOT "ON" (Ontario):
+----------------------------------------------------------------------------------------------
+mysql> select * from patients where province_id<>1;
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city    | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+|          1 | monali     | tanpure   | female | 2002-04-02 | pune    |           3 | abc       |     15 |     10 |
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik  |           6 | abc       |     12 |     11 |
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur  |           4 | mnb       |      7 |      9 |
+|          4 | pranit     | deshmukh  | male   | 2026-08-03 | nagpur  |           3 | mnb       |      5 |      9 |
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai  |           3 | tnb       |     20 |     15 |
+|          8 | dhiraj     | patne     | male   | 2045-08-13 | solapur |           5 | trb       |     12 |      8 |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+8 rows in set (0.01 sec)
+
+mysql> select * from patients where province_id<>2;
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city    | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+|          1 | monali     | tanpure   | female | 2002-04-02 | pune    |           3 | abc       |     15 |     10 |
+|          4 | pranit     | deshmukh  | male   | 2026-08-03 | nagpur  |           3 | mnb       |      5 |      9 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai  |           3 | tnb       |     20 |     15 |
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur  |           4 | mnb       |      7 |      9 |
+|          8 | dhiraj     | patne     | male   | 2045-08-13 | solapur |           5 | trb       |     12 |      8 |
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik  |           6 | abc       |     12 |     11 |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+6 rows in set (0.01 sec)
+
+Q4.selects all patients from the "Patients" table, sorted by the "first_name" column
+----------------------------------------------------------------------------------------------
+
+mysql> select * from patients order by first_name asc ;
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city    | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur  |           4 | mnb       |      7 |      9 |
+|          8 | dhiraj     | patne     | male   | 2045-08-13 | solapur |           5 | trb       |     12 |      8 |
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai  |           3 | tnb       |     20 |     15 |
+|          1 | monali     | tanpure   | female | 2002-04-02 | pune    |           3 | abc       |     15 |     10 |
+|          4 | pranit     | deshmukh  | male   | 2026-08-03 | nagpur  |           3 | mnb       |      5 |      9 |
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik  |           6 | abc       |     12 |     11 |
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+8 rows in set (0.00 sec)
+ 
+
+Q5. selects all patients from the "patients" table, sorted DESCENDING by the "first_name" column?
+------------------------------------------------------------------------------------------------------------
+
+mysql> select * from patients order by first_name desc ;
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city    | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik  |           6 | abc       |     12 |     11 |
+|          4 | pranit     | deshmukh  | male   | 2026-08-03 | nagpur  |           3 | mnb       |      5 |      9 |
+|          1 | monali     | tanpure   | female | 2002-04-02 | pune    |           3 | abc       |     15 |     10 |
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai  |           3 | tnb       |     20 |     15 |
+|          8 | dhiraj     | patne     | male   | 2045-08-13 | solapur |           5 | trb       |     12 |      8 |
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur  |           4 | mnb       |      7 |      9 |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+8 rows in set (0.00 sec)
+
+Q6.selects all patients from the "patients" table, sorted by the "first_name" and the "last_name" column. This means that it orders by first_name, but if some rows have the same first_name, it orders them by last_name
+-------------------------------------------------------------------------------------------------------------
+mysql> select * from patients where first_name like first_name='r%';
+Empty set, 1 warning (0.00 sec)
+
+
+Q7. selects all patients from the "patients" table, sorted ascending by the "first_name" and descending by the "last_name" column
+------------------------------------------------------------------------------------------------------------------------------------
+
+mysql> select * from patients order by first_name asc , last_name desc ;
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city    | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur  |           4 | mnb       |      7 |      9 |
+|          8 | dhiraj     | patne     | male   | 2045-08-13 | solapur |           5 | trb       |     12 |      8 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai  |           3 | tnb       |     20 |     15 |
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
+|          1 | monali     | tanpure   | female | 2002-04-02 | pune    |           3 | abc       |     15 |     10 |
+|          4 | pranit     | deshmukh  | male   | 2026-08-03 | nagpur  |           3 | mnb       |      5 |      9 |
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik  |           6 | abc       |     12 |     11 |
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+8 rows in set (0.00 sec)
+
+Q8.selects all patients with a first_name starting with "a"
+--------------------------------------------------------------------------------------
+
+mysql> select * from patients where first_name like 'r%';
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik |           6 | abc       |     12 |     11 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from patients where first_name like 'a%';
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur |           4 | mnb       |      7 |      9 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+1 row in set (0.00 sec)
+
+
+Q9.selects all patients with a first_name ending with "a":
+------------------------------------------------------------------------------------
+mysql> select * from patients where first_name like '%a';
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik |           6 | abc       |     12 |     11 |
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai |           2 | mnb       |     21 |     14 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai |           3 | tnb       |     20 |     15 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+3 rows in set (0.00 sec)
+
+Q10.selects all patients with a first_name that have "or" in any position
+
+------------------------------------------------------------------------------------
+
+mysql> select * from patients where first_name like '%av%';
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          3 | aavdut     | renuse    | male   | 2020-08-03 | nagpur |           4 | mnb       |      7 |      9 |
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai |           2 | mnb       |     21 |     14 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai |           3 | tnb       |     20 |     15 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+3 rows in set (0.00 sec)
+
+Q11.selects all patients with a first_name that have "r" in the second position?
+
+---------------------------------------------------------------------------------
+
+mysql> select * from patients where first_name like '_e%';
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik |           6 | abc       |     12 |     11 |
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai |           2 | mnb       |     21 |     14 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+2 rows in set (0.00 sec)
+
+
+Q12.selects all patients with a first_name that starts with "a" and are at least 3 characters in length?
+
+------------------------------------------------------------------------------------------------------------------
+
+
+mysql> select * from patients where first_name  like 't____';
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai |           2 | mnb       |     21 |     14 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from patients where first_name like 't____%';
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai |           2 | mnb       |     21 |     14 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+1 row in set (0.00 sec)
+
+
+Q13. selects all patients with a first_name that starts with "a" and ends with "o"?
+
+--------------------------------------------------------------------------------------------
+
+mysql> select * from patients where first_name  like 'k%a';
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city   | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai |           2 | mnb       |     21 |     14 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai |           3 | tnb       |     20 |     15 |
++------------+------------+-----------+--------+------------+--------+-------------+-----------+--------+--------+
+2 rows in set (0.00 sec)
+
+
+Q14.selects all patients with a first_name that does NOT start with "a"?
+
+----------------------------------------------------------------------------
+
+mysql> select * from patients where first_name not like 'a%';
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+| patient_id | first_name | last_name | gender | birth_date | city    | province_id | allergies | height | weight |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+|          1 | monali     | tanpure   | female | 2002-04-02 | pune    |           3 | abc       |     15 |     10 |
+|          2 | renuka     | renuse    | female | 2022-02-05 | nashik  |           6 | abc       |     12 |     11 |
+|          4 | pranit     | deshmukh  | male   | 2026-08-03 | nagpur  |           3 | mnb       |      5 |      9 |
+|          5 | tejas      | dalvi     | male   | 2021-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
+|          6 | kavya      | parathe   | female | 2001-02-03 | mumbai  |           2 | mnb       |     21 |     14 |
+|          7 | kavya      | patne     | female | 2001-02-03 | mumbai  |           3 | tnb       |     20 |     15 |
+|          8 | dhiraj     | patne     | male   | 2045-08-13 | solapur |           5 | trb       |     12 |      8 |
++------------+------------+-----------+--------+------------+---------+-------------+-----------+--------+--------+
+7 rows in set (0.01 sec)
+
+
+

@@ -1,0 +1,290 @@
+
+
+mysql> create database assets1;
+Query OK, 1 row affected (0.01 sec)
+
+
+mysql> use assets1 ;
+Database changed
+
+
+
+mysql> CREATE TABLE Customers (
+    ->     customer_id INT PRIMARY KEY,
+    ->     customer_name VARCHAR(100) );
+
+Query OK, 0 rows affected (0.04 sec)
+
+
+mysql> INSERT INTO Customers (customer_id, customer_name)
+    -> VALUES
+    -> (1, 'John Doe'),
+    -> (2, 'Jane Smith'),
+    -> (3, 'Alice Brown'),
+    -> (4, 'Bob White');
+	
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> CREATE TABLE Orders (
+    ->     order_id INT PRIMARY KEY,
+    ->     customer_id INT,
+    ->     order_date DATE,
+    ->     total_amount DECIMAL(10, 2),
+    ->     FOREIGN KEY (customer_id) REFERENCES Customers(customer_id));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> INSERT INTO Orders (order_id, customer_id, order_date, total_amount)
+    -> VALUES
+    -> (101, 1, '2025-03-01', 120.50),
+    -> (102, 2, '2025-03-02', 80.00),
+    -> (103, 3, '2025-03-03', 200.00),
+    -> (104, 1, '2025-03-05', 60.00),
+    -> (105, 4, '2025-03-06', 150.00),
+    -> (106, 2, '2025-03-07', 120.00);
+Query OK, 6 rows affected (0.01 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+mysql> select *  from customers ;
++-------------+---------------+
+| customer_id | customer_name |
++-------------+---------------+
+|           1 | John Doe      |
+|           2 | Jane Smith    |
+|           3 | Alice Brown   |
+|           4 | Bob White     |
++-------------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from  orders ;
++----------+-------------+------------+--------------+
+| order_id | customer_id | order_date | total_amount |
++----------+-------------+------------+--------------+
+|      101 |           1 | 2025-03-01 |       120.50 |
+|      102 |           2 | 2025-03-02 |        80.00 |
+|      103 |           3 | 2025-03-03 |       200.00 |
+|      104 |           1 | 2025-03-05 |        60.00 |
+|      105 |           4 | 2025-03-06 |       150.00 |
+|      106 |           2 | 2025-03-07 |       120.00 |
++----------+-------------+------------+--------------+
+6 rows in set (0.00 sec)
+
+1. List all customers who have placed an order with a total_amount greater than $100.
+Use a subquery to identify the customers with large orders, and then join the Customers table to retrieve their names.
+
+
+mysql> select c.customer_id , c.customer_name , o.total_amount from customers c  join orders
+ o on c.customer_id=o.customer_id where total_amount > 100 ;
++-------------+---------------+--------------+
+| customer_id | customer_name | total_amount |
++-------------+---------------+--------------+
+|           1 | John Doe      |       120.50 |
+|           3 | Alice Brown   |       200.00 |
+|           4 | Bob White     |       150.00 |
+|           2 | Jane Smith    |       120.00 |
++-------------+---------------+--------------+
+4 rows in set (0.00 sec)
+
+
+2. Find the customer who placed the order with the highest total_amount.
+Use a subquery to find the order with the highest total_amount, then join it with the Customers table.
+
+
+mysql> select c.customer_name  from customers c join orders o on c.customer_id=o.customer_id
+  where o.total_amount = (select max(total_amount) from orders);
++---------------+
+| customer_name |
++---------------+
+| Alice Brown   |
++---------------+
+1 row in set (0.00 sec)
+
+
+3. Display the name of customers and the number of orders they have placed.
+Use a subquery to count orders for each customer and join with the Customers table.
+
+
+mysql> select c.customer_name , count(o.order_id)  as number_of_orders from customers c join
+ orders o on c.customer_id=o.customer_id  group by customer_name ;
++---------------+------------------+
+| customer_name | number_of_orders |
++---------------+------------------+
+| John Doe      |                2 |
+| Jane Smith    |                2 |
+| Alice Brown   |                1 |
+| Bob White     |                1 |
++---------------+------------------+
+4 rows in set (0.00 sec)
+
+
+4. Retrieve all customers who have placed at least one order on 2025-03-02.
+Use a subquery to filter out the customers based on the order_date.
+
+
+mysql> select c.customer_name from customers c join orders o on c.customer_id=o.customer_id where o.order_date = '2025-03-02' ;
++---------------+
+| customer_name |
++---------------+
+| Jane Smith    |
++---------------+
+1 row in set (0.00 sec)
+
+
+5. Find all customers who have placed more than 2 orders.
+Use a subquery with a COUNT() function to filter customers based on their number of orders.
+
+mysql> select c.customer_name, count(o.customer_id) from customers c join orders o on c.cust
+omer_id=o.customer_id group by customer_name having  count(c.customer_id) > 2 ;
+
+Empty set (0.00 sec)
+
+6. Get the details of customers who placed an order for more than $150.
+Use a JOIN between Customers and Orders tables, and filter on total_amount.
+
+mysql> select c.customer_name , o.total_amount from customers c  join orders o on c.customer
+_id=o.customer_id where o.total_amount > 150 ;
++---------------+--------------+
+| customer_name | total_amount |
++---------------+--------------+
+| Alice Brown   |       200.00 |
++---------------+--------------+
+1 row in set (0.00 sec)
+
+
+7. Find customers who have placed orders in both March and April 2025.
+Use a subquery to filter customers who made orders in March and April.
+
+
+mysql> select c.customer_name from customers c join  orders o on c.customer_id=o.customer_id where month(o.order_date) =3 and c.customer_id in (select o2.customer_id from orders o2 where  month(o.order_date) = 4 );
+
+Empty set (0.00 sec)
+
+
+8. List the customers who have made orders with total_amount greater than the average order amount.
+Use a subquery to calculate the average total_amount and compare each customer's orders to it.
+
+mysql> select c.customer_name, o.total_amount from customers c join orders o on c.customer_i
+d=o.customer_id where total_amount > ( select avg(total_amount) from orders ) ;
++---------------+--------------+
+| customer_name | total_amount |
++---------------+--------------+
+| Alice Brown   |       200.00 |
+| Bob White     |       150.00 |
++---------------+--------------+
+2 rows in set (0.00 sec)
+
+
+
+9. Retrieve the customer_name and total_amount for customers who have made their highest order with a total_amount greater than $200.
+Use a subquery to find the highest order for each customer and filter by total_amount.
+
+mysql> select c.customer_name , o.total_amount from customers c join orders o on c.customer_id=o.customer_id where o.total_amount = (select max(o.total_amount) from orders o2 where o2.customer_id = c.customer_id ) and o.total_amount > 200 ;
+Empty set (0.00 sec)
+
+mysql> select c.customer_name , o.total_amount from customers c join orders o on c.customer_id=o.customer_id where o.total_amount = (select max(o.total_amount) from orders o2 where o2.customer_id = c.customer_id ) and o.total_amount > 150 ;
++---------------+--------------+
+| customer_name | total_amount |
++---------------+--------------+
+| Alice Brown   |       200.00 |
++---------------+--------------+
+1 row in set (0.00 sec)
+
+
+10. Find the customer with the smallest order in terms of total_amount.
+Use a subquery to find the order with the minimum total_amount, and then join with the Customers table.
+
+mysql> select c.customer_name , o.total_amount from customers c join orders o on c.customer_
+id=o.customer_id where o.total_amount = (select min(total_amount) from orders);
++---------------+--------------+
+| customer_name | total_amount |
++---------------+--------------+
+| John Doe      |        60.00 |
++---------------+--------------+
+1 row in set (0.00 sec)
+
+
+11. Get all customers who have placed orders in 2025, but their orders’ total_amount is always below $100.
+Use a subquery to find customers whose orders in 2025 have a total_amount less than $100.
+
+mysql> select c.customer_name from customers c join orders o on c.customer_id=o.customer_id where  year(o.order_date) = 2025  group by c.customer_name having max(o.total_amount) < 100 ;
+Empty set (0.00 sec)
+
+
+12. Show all orders for customers who have placed more than one order.
+Use a subquery to count orders for each customer, then filter based on order count.
+13. Find the customers who placed orders where the total amount is between $100 and $200.
+Use a subquery to filter orders in this range and join it with the Customers table.
+14. Retrieve the customers who placed an order after March 3, 2025.
+Use a subquery to filter the customers based on the order date.
+15. Display the names of customers who have the highest average total_amount across all their orders.
+Use a subquery to calculate the average total_amount for each customer, and join it with the Customers table.
+16. List the customers who placed orders in the same day as another customer.
+Use a subquery to filter customers based on common order_date and join with the Customers table.
+17. Get the names of customers who made a purchase greater than their total average.
+Use a subquery to compare each customer's individual total_amount with their average.
+18. Find the customers who have placed orders in both March 2025 and at least one other month.
+Use a subquery to find customers who ordered in both March 2025 and other months.
+19. Get the total number of orders for each customer, and return only those customers who have made more than 3 orders.
+Use a subquery to count the orders per customer and filter based on the count.
+20. List the customers who have never placed an order.
+Use a LEFT JOIN between Customers and Orders, and filter where no orders exist.
+21. Find customers who placed orders with total_amount higher than the total spent by a given customer.
+Use a subquery to calculate the total spent by a specific customer, then compare other customers’ orders.
+22. Retrieve customers who have placed an order after the highest order date of another customer.
+Use a subquery to find the highest order date of one customer, then join with the Orders table.
+23. Find customers who have placed orders that were delivered before 2025-03-01.
+Use a subquery to filter out orders delivered before a certain date.
+24. List customers who placed orders during the same month as a specific customer (e.g., customer_id = 1).
+Use a subquery to get the month of the specific customer's orders and filter other customers based on the same month.
+25. Get the names of customers who spent more than $200 on orders within a single month.
+Use a subquery to calculate total spend per month for each customer.
+26. Find customers who have ordered more than once within the same week.
+Use a subquery to calculate orders by week and filter customers who have multiple orders in that week.
+27. Retrieve customers who placed orders on the same date but with different amounts.
+Use a subquery to find multiple orders for a single date, then join with Customers.
+28. List all customers who have placed orders with total_amount less than the average total_amount of all orders.
+Use a subquery to calculate the overall average order amount.
+29. Find the top 5 customers who have spent the most money on a single order.
+Use a subquery to find the orders with the highest total amounts.
+30. Get the customers who have placed orders with total_amount greater than the median order amount.
+Use a subquery to calculate the median order amount and filter based on this.
+31. Find customers who placed their last order after the 1st of March 2025.
+Use a subquery to find the last order for each customer and filter based on the date.
+32. List customers who have placed an order before any order of customer 2.
+Use a subquery to find the order dates of customer 2 and compare with other customers' order dates.
+33. Retrieve customers who have spent more than $500 in total.
+Use a subquery to sum total_amount per customer and filter for those who have spent more than $500.
+34. Find customers who have placed orders on the same day with different total_amount values.
+Use a subquery to find orders placed on the same day with different values.
+35. Get customers who placed an order during the second week of March 2025.
+Use a subquery to filter orders by specific date ranges.
+36. Find the customers who spent more on a specific product than the average spend per product.
+Use a subquery to calculate the average spend per product, then compare customers’ totals.
+37. List customers who have made a purchase of more than $50 but less than $200.
+Use a subquery to filter out customers based on their order total.
+38. Retrieve customers who placed an order with the highest total amount in the month of March 2025.
+Use a subquery to find the highest total for March and join with the Customers table.
+39. Find the customers who have placed orders with the same total amount.
+Use a subquery to find orders with the same total_amount, then filter by customer.
+40. List customers who placed orders that exceed the total amount spent by customer 4.
+Use a subquery to calculate the total spent by customer 4 and filter other customers' orders accordingly.
+41. Find the customers who have placed orders with a total_amount greater than the total amount of a given order (e.g., order_id = 105).
+Use a subquery to find the total of a specific order and filter other customers' orders.
+42. Get the names of customers who have only made a single order.
+Use a subquery to count the number of orders placed by each customer.
+43. Retrieve customers who have ordered both in March and April 2025.
+Use a subquery to filter customers who ordered in both months.
+44. List customers who placed an order with the highest total amount in a specific month (e.g., March 2025).
+Use a subquery to filter out the highest total orders within the given month.
+45. Find customers who have never placed an order with total_amount greater than $150.
+Use a subquery to identify customers who only made smaller orders.
+46. List customers who placed orders in the same month but have different total_amount values.
+Use a subquery to identify multiple orders from the same month with different amounts.
+47. Get customers who spent more than $100 on their last order.
+Use a subquery to identify customers' last orders and filter based on total_amount.
+48. Retrieve customers who have placed more than one order in the same week.
+Use a subquery to count orders by week and filter customers accordingly.
+49. Find customers who have spent more in total on orders in March than in April.
+Use subqueries to sum the total_amount for March and April orders, then compare the results.
+50. Find the customers who placed orders where the total_amount is above the median total for all orders.
+Use a subquery to calculate the median total_amount and filter customers accordingly.

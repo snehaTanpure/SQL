@@ -1,0 +1,244 @@
+
+9. Functions
+Create a function that returns the full name of an employee given their first and last names.
+
+
+mysql> delimiter //
+mysql> create function get_first_last_name(first_name varchar(50),last_name varchar(50)) returns varchar(20) No SQL
+    -> begin
+    -> declare full_name varchar(50);
+    -> set full_name=concat(first_name,'',last_name);
+    -> return full_name;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select get_first_last_name('nilu','shaikha') as "full_name"//
++-------------+
+| full_name   |
++-------------+
+| nilushaikha |
++-------------+
+1 row in set (0.01 sec)
+
+
+
+
+Write a function that calculates the age of a person based on their birthdate.
+
+mysql> create function cal_age(birth_date date) returns int deterministic
+    -> begin
+    -> declare age int;
+    -> set age=TIMESTAMPDIFF(YEAR,birth_date,CURDATE());
+    -> return age;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select cal_age("2002_12_04")//
++-----------------------+
+| cal_age("2002_12_04") |
++-----------------------+
+|                    22 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> select cal_age("2001_05_14")//
++-----------------------+
+| cal_age("2001_05_14") |
++-----------------------+
+|                    23 |
++-----------------------+
+1 row in set (0.00 sec)
+
+
+
+
+
+
+
+Create a function to get the day of the week for a given date.
+
+
+mysql> create function get_day_name(given_date date)returns varchar(20) deterministic
+    -> begin
+    -> declare day_name varchar(50);
+    -> set day_name=DAYNAME(given_date);
+    -> return day_name;
+    -> end;
+    -> //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select get_day_name("2025-02-27")//
++----------------------------+
+| get_day_name("2025-02-27") |
++----------------------------+
+| Thursday                   |
++----------------------------+
+1 row in set (0.01 sec)
+
+mysql> select get_day_name("2002-12-04") //
++----------------------------+
+| get_day_name("2002-12-04") |
++----------------------------+
+| Wednesday                  |
++----------------------------+
+1 row in set (0.00 sec)
+
+
+Write a function that returns the square of a number.
+
+
+mysql> create function get_Square(no int) returns int NO SQL
+    -> Begin
+    -> declare sq int;
+    -> set sq=no*no;
+    -> return sq;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select get_square(9) //
++---------------+
+| get_square(9) |
++---------------+
+|            81 |
++---------------+
+1 row in set (0.00 sec)
+
+mysql>
+
+Create a function that determines if a number is even or odd.
+
+mysql> create function checkk_even_odd(no int) returns varchar(10) NO SQL
+    -> begin
+    -> declare result varchar(10);
+    -> if no%2=0 then
+    -> set result="even";
+    -> else
+    -> set result="odd";
+    -> end if;
+    -> return result;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select checkk_even_odd(5) //
++--------------------+
+| checkk_even_odd(5) |
++--------------------+
+| odd                |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select checkk_even_odd(10)//
++---------------------+
+| checkk_even_odd(10) |
++---------------------+
+| even                |
++---------------------+
+1 row in set (0.00 sec)
+
+
+Write a function to get the total price of an order including tax.
+
+Create a function to calculate the area of a circle given its radius.
+
+mysql> create function cal_circle_Area(no int) returns float NO SQL
+    -> begin
+    -> declare result float;
+    -> set result=3.14 *(no * no);
+    -> return result;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> select cal_circle_Area(5);
+    -> //
++--------------------+
+| cal_circle_Area(5) |
++--------------------+
+|               78.5 |
++--------------------+
+1 row in set (0.01 sec)
+
+mysql> select cal_circle_Area(2);
+    -> //
++--------------------+
+| cal_circle_Area(2) |
++--------------------+
+|              12.56 |
++--------------------+
+1 row in set (0.00 sec)
+
+Write a function that formats a customer’s phone number in a specific format.
+
+
+
+Create a function that returns the longest word in a given string.
+
+
+
+Write a function that checks if a customer’s loyalty points exceed a certain threshold.
+
+
+
+
+
+
+
+
+
+
+
+Factorial Number using the Function In Sql:
+
+
+mysql> create function factorial(no int) returns int NO SQL
+    -> begin
+    -> declare fact int;
+    -> declare i int;
+    -> set fact=1;
+    -> set i=1;
+    -> factorialloop:Loop
+    -> if (i<=no) then
+    -> set fact=fact*i;
+    -> set i= i + 1 ;
+    -> else
+    ->   leave factorialloop ;
+    -> end if ;
+    -> end loop ;
+    -> return fact ;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql>
+mysql>
+mysql> select factorial(5);
+    -> //
++--------------+
+| factorial(5) |
++--------------+
+|          120 |
++--------------+
+1 row in set (0.00 sec)
+
+mysql>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

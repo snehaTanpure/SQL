@@ -1,0 +1,863 @@
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| company            |
+| course             |
+| employee           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| salesman           |
+| sys                |
+| world              |
++--------------------+
+11 rows in set (0.00 sec)
+
+mysql> use salesman;
+Database changed
+mysql> show tables;
++--------------------+
+| Tables_in_salesman |
++--------------------+
+| customer           |
+| orders             |
+| salesman           |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from salesman;
++-------------+-------+-------------+-----------+
+| salesman_id | name  | city        | commision |
++-------------+-------+-------------+-----------+
+|        5001 | sejal | latur       |      3000 |
+|        5002 | anu   | calinfornia |      1000 |
+|        5003 | nilu  | pune        |      2000 |
+|        5005 | sneha | new york    |      6000 |
++-------------+-------+-------------+-----------+
+4 rows in set (0.01 sec)
+
+mysql> select * from customer;
++-------------+--------------+------------+-------+-------------+
+| customer_id | cust_name    | city       | grade | salesman_id |
++-------------+--------------+------------+-------+-------------+
+|        3002 | Nick Rimando | New York   |   100 |        5001 |
+|        3005 | Graham Zusis | california |   200 |        5002 |
+|        3006 | Aksha Bhome  | pune       |   400 |        5005 |
+|        3007 | Brad Davis   | New York   |   200 |        5001 |
++-------------+--------------+------------+-------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from orders;
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70001 |     150.5 | 2012-10-05 |        3005 |        5002 |
++--------+-----------+------------+-------------+-------------+
+1 row in set (0.00 sec)
+
+mysql> insert into orders values(7009,270.65,'2023-12-4',3002,5003);
+Query OK, 1 row affected (0.09 sec)
+
+mysql> insert into orders values(7009,270.65,'2024-12-08',3007,5005);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into orders values(7004,110.5,'2014-08-17',3002,5001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into orders values(7002,65.26,'2012-10-02',3005,5001);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from orders;
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70001 |     150.5 | 2012-10-05 |        3005 |        5002 |
+|   7009 |    270.65 | 2023-12-04 |        3002 |        5003 |
+|   7009 |    270.65 | 2024-12-08 |        3007 |        5005 |
+|   7004 |     110.5 | 2014-08-17 |        3002 |        5001 |
+|   7002 |     65.26 | 2012-10-02 |        3005 |        5001 |
++--------+-----------+------------+-------------+-------------+
+5 rows in set (0.03 sec)
+
+mysql> select s.name as 'salesperson name',c.cust_name as 'customer na
+me' froselect s.name as 'salesperson name',c.cust_name as 'customer name' from salesman s inner join customer c on s.salesman_id=select sselect s.nselect s.name as 'salesperson name',c.cust_name as 'customer name' from salesman s inner join customer c on s.salesman_id=c.cusman_id
+    -> sman_id=c.cusalesman_id=c.cu on s.salesman_id=c.cu c on s.sales
+    -> c.cun customer c on s.salesman_id=c.cu inner join customer c on
+    -> sman_id=c.cu from salesman s inner join customer c on s.salesma
+    -> cu',c.cust_name as 'customer name' from salesman s inner join c
+    ->  c on s.salesman_id=c.cu
+    -> select s.name as 'salesperson name',c.cust_name as 'customer na
+    -> m salesman s inner join customer c on s.salesman_id=c.cu
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    ->
+    -> ^C
+mysql>
+mysql>
+mysql>
+mysql> select s.name as 'salesperson name',c.cust_name as 'customer name' from salesman s inner join customer c on s.salesman_id=c.customer_
+id where s.city=c.city;
+Empty set (0.01 sec)
+       select s.name as 'salesperson name',c.cust_name as 'customer name' from salesman s i
+ner join customer c on s.salesman_id=c.customer_id where s.city=c.city;          l
+Empty set (0.01 sec)
+
+mysql> select s.name as 'salesperson name',c.cust_name as 'customer name' from salesman s in
+ner join customer c on s.salesman_id=c.salesman_id where s.city=c.city;
+Empty set (0.01 sec)
+
+mysql> select s.name as 'salesperson name',c.cust_name as 'customer name' from salesman s inner join customer c on s.salesman_id=c.salesman_id where s.city=c.city;
+Empty set (0.00 sec)
+
+mysql> select o.ord_no ,o.purch_amt,c.cust_name,c.city from orders o inner joi
+n customer c on o.customer_id=c.customer_id where purch_amt between(10 to 110)
+;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to 110)' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select o.ord_no ,o.purch_amt,c.cust_name,c.city from orders o inner joi
+n customer c on o.customer_id=c.customer_id where purch_amt between(10 and 110
+);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select o.ord_no ,o.purch_amt,c.cust_name,c.city from orders o inner joi
+n customer c on o.customer_id=c.customer_id where purch_amt between 10 and 110
+;
++--------+-----------+--------------+------------+
+| ord_no | purch_amt | cust_name    | city       |
++--------+-----------+--------------+------------+
+|   7002 |     65.26 | Graham Zusis | california |
++--------+-----------+--------------+------------+
+1 row in set (0.01 sec)
+
+mysql> select o.ord_no ,o.purch_amt,c.cust_name,c.city from orders o inner join customer c on o.customer_id=c.customer_idwhere purch_amt between 100 and 150;
++--------+-----------+--------------+----------+
+| ord_no | purch_amt | cust_name    | city     |
++--------+-----------+--------------+----------+
+|   7004 |     110.5 | Nick Rimando | New York |
++--------+-----------+--------------+----------+
+1 row in set (0.00 sec)
+
+mysql> select c.cust_name as 'customer name',c.city as 'city',s.name as 'salesman' , s.commision as 'commision' from salesman s inner join custo
+mer c on s.salesman_id=c.salesman_id;
++---------------+------------+----------+-----------+
+| customer name | city       | salesman | commision |
++---------------+------------+----------+-----------+
+| Nick Rimando  | New York   | sejal    |      3000 |
+| Graham Zusis  | california | anu      |      1000 |
+| Aksha Bhome   | pune       | sneha    |      6000 |
+| Brad Davis    | New York   | sejal    |      3000 |
++---------------+------------+----------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select c.cust_name as 'customer name',c.city as 'customer city',s
+.name as 'salesman',s.commission as 'commission' from salesman s inner j
+oin customer c on s.salesman_id=c.salesman_id where commission>2000;
+ERROR 1054 (42S22): Unknown column 's.commission' in 'field list'
+mysql> select c.cust_name as 'customer name',c.city as 'customer city',s.name as 'salesman',s.comission as 'commission' from salesman s inner jo
+in customer c on s.salesman_id=c.salesman_id where commision>2000;
+ERROR 1054 (42S22): Unknown column 's.comission' in 'field list'
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select c.cust_name as 'customer name',c.city as 'customer city',s.name as 'salesman',s.commision as 'commission' from salesman s inner jo
+in customer c on s.salesman_id=c.salesman_id where commision>2000;
++---------------+---------------+----------+------------+
+| customer name | customer city | salesman | commission |
++---------------+---------------+----------+------------+
+| Nick Rimando  | New York      | sejal    |       3000 |
+| Brad Davis    | New York      | sejal    |       3000 |
+| Aksha Bhome   | pune          | sneha    |       6000 |
++---------------+---------------+----------+------------+
+3 rows in set (0.01 sec)
+
+mysql> select c.cust_name as 'customer name',c.city as 'city',s.name as
+'salesman' , s.city as 'salesman city',s.commision as 'commision' from s
+alesma s inner join customer c on s.salesman_id=c.salesman_id where s.ci
+ty!=c.city and commision>1000;
+ERROR 1146 (42S02): Table 'salesman.salesma' doesn't exist
+mysql>
+mysql>
+mysql>
+mysql> select c.cust_name as 'customer name',c.city as 'city',s.name as 'salesman' , s.city as 'salesman city',s.commision as 'commision' from salesman s inner join customer c on s.salesman_id=c.salesman_id where s.c
+ity!=c.city and commision>1000;
++---------------+----------+----------+---------------+-----------+
+| customer name | city     | salesman | salesman city | commision |
++---------------+----------+----------+---------------+-----------+
+| Nick Rimando  | New York | sejal    | latur         |      3000 |
+| Brad Davis    | New York | sejal    | latur         |      3000 |
+| Aksha Bhome   | pune     | sneha    | new york      |      6000 |
++---------------+----------+----------+---------------+-----------+
+3 rows in set (0.00 sec)
+
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name as 'salesman',s.commision fromorders o inner join customer c on o.customer_id=c.customer_id inner join salesman s on s.sales
+man_id=o.salesman_id;
+    '>
+    '>
+    '>
+    '>
+    '> ^C
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name as 'salesman',s.commision fromorders o inner join customer c on o.customer_id=c.customer_id inner join salesman s on s.salesman_id=o.salesman_id;
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '> ^C
+mysql>
+mysql>
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer n
+ame,s.grade,s.name as 'salesman',s.commision from orders o inner join cu
+stomer c on o.customer_id=c.customer_id inner join salesman s on s.sales
+man_id=o.salesman_id;
+    '>
+    '>
+    '>
+    '> ;
+    '>
+    '> ^C
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer n
+ame,s.grade,s.name as 'salesman',s.commision from orders o inner join customer c on o.customer_id=c.customer_id inner join salesman s on s.salesman_id=o.salesman_id;
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '>
+    '> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name as 'salesman',s.commision fromorders o inner join customer c on o.customer_id=c.customer_id inner join salesman s on s.salesman_id=o.salesman_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'salesman',s.commision from orders o inner join customer c on o.customer_id=c.cus' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer n
+ame,s.grade,s.name as 'salesman',s.commision from orders o inner join cu
+stomer c on o.customer_id=c.customer_id inner join salesman s on s.sales
+man_id=c.salesman_id;
+    '>
+    '> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name as 'salesman',s.commision fromorders o inner join customer c on o.customer_id=c.customer_id inner join salesman s on s.salesman_id=c.salesman_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'salesman',s.commision from orders o inner join customer c on o.customer_id=c.cus' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer namselect o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name as 'salesman',s.commision from orders o innan s on s.salesman_id=c.salesman_id;
+an s on s.salesman_id=c.salesman_id;
+    '>
+    '>
+    '>
+    '> ^C
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name as 'salesman',s.commision fromorders o inner join customer c on o.customer_id=c.customer_id inner join salesman s on s.salesman_id=o.salesman_id;
+    '>
+    '>
+    '>
+    '>
+    '> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name as 'salesman',s.commision fromorders o inner join customer c on c.customer_id=o.customer_id inner join salesm
+an s on s.salesman_id=o.salesman_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'salesman',s.commision from orders o inner join customer c on o.customer_id=c.cus' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'custo
+mer name,s.grade,s.name as 'salesman',s.commision from customer c i
+nner join orders o on c.customer_id=o.customer_id inner join salesm
+an s on s.salesman_id=o.salesman_id;
+    '>
+    '>
+    '> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name as 'salesman',s.commision fromcustomer c inner join orders o on c.customer_id=o.customer_id inner join salesman s on s.salesman_id=o.salesman_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'salesman',s.commision from customer c inner join orders o on c.customer_id=o.cus' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name,s.commision from customer c inner join orde
+rs o on c.customer_id=o.customer_id inner join salesman s on s.sale
+sman_id=o.salesman_id;
+    '> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name,s.grade,s.name,s.commision from customer c inner join orders o on c.customer_id=o.customer_id inner join salesman s on s.salesman_id=o.salesman_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'customer name,s.grade,s.name,s.commision from customer c inner join orders o on ' at line 2
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name',s.grade,s.name,s.commision from customer c inner join orders o on c.customer_id=o.customer_id inner join salesman s on s.salesman_id=o.salesman_id;
+ERROR 1054 (42S22): Unknown column 's.grade' in 'field list'
+mysql> select o.ord_no,o.ord_date,o.purch_amt,c.cust_name as 'customer name',c.grade,s.name,s.commision from customer c inner join orders o on c.customer_id=o.customer_id inner join salesman s on s.salesman_id=o.salesman_id;
++--------+------------+-----------+---------------+-------+-------+-----------+
+| ord_no | ord_date   | purch_amt | customer name | grade | name  | commision |
++--------+------------+-----------+---------------+-------+-------+-----------+
+|   7009 | 2023-12-04 |    270.65 | Nick Rimando  |   100 | nilu  |      2000 |
+|   7004 | 2014-08-17 |     110.5 | Nick Rimando  |   100 | sejal |      3000 |
+|  70001 | 2012-10-05 |     150.5 | Graham Zusis  |   200 | anu   |      1000 |
+|   7002 | 2012-10-02 |     65.26 | Graham Zusis  |   200 | sejal |      3000 |
+|   7009 | 2024-12-08 |    270.65 | Brad Davis    |   200 | sneha |      6000 |
++--------+------------+-----------+---------------+-------+-------+-----------+
+5 rows in set (0.00 sec)
+
+mysql> select s.salesman_id,s.name,s.city,s.commision,c.customer_id,c.cust_name,c.city,c.grade,o.ord_no,o.purch_amt,o.ord_date from salesman s inner join orders o on s.salesman_id=o.salesman_id inner join customer  c on c.customer_id=c.customer_id;
++-------------+-------+-------------+-----------+-------------+--------------+------------+-------+--------+-----------+------------+
+| salesman_id | name  | city        | commision | customer_id | cust_name    | city       | grade | ord_no | purch_amt | ord_date   |
++-------------+-------+-------------+-----------+-------------+--------------+------------+-------+--------+-----------+------------+
+|        5005 | sneha | new york    |      6000 |        3002 | Nick Rimando | New York   |   100 |   7009 |    270.65 | 2024-12-08 |
+|        5003 | nilu  | pune        |      2000 |        3002 | Nick Rimando | New York   |   100 |   7009 |    270.65 | 2023-12-04 |
+|        5002 | anu   | calinfornia |      1000 |        3002 | Nick Rimando | New York   |   100 |  70001 |     150.5 | 2012-10-05 |
+|        5001 | sejal | latur       |      3000 |        3002 | Nick Rimando | New York   |   100 |   7002 |     65.26 | 2012-10-02 |
+|        5001 | sejal | latur       |      3000 |        3002 | Nick Rimando | New York   |   100 |   7004 |     110.5 | 2014-08-17 |
+|        5005 | sneha | new york    |      6000 |        3005 | Graham Zusis | california |   200 |   7009 |    270.65 | 2024-12-08 |
+|        5003 | nilu  | pune        |      2000 |        3005 | Graham Zusis | california |   200 |   7009 |    270.65 | 2023-12-04 |
+|        5002 | anu   | calinfornia |      1000 |        3005 | Graham Zusis | california |   200 |  70001 |     150.5 | 2012-10-05 |
+|        5001 | sejal | latur       |      3000 |        3005 | Graham Zusis | california |   200 |   7002 |     65.26 | 2012-10-02 |
+|        5001 | sejal | latur       |      3000 |        3005 | Graham Zusis | california |   200 |   7004 |     110.5 | 2014-08-17 |
+|        5005 | sneha | new york    |      6000 |        3006 | Aksha Bhome  | pune       |   400 |   7009 |    270.65 | 2024-12-08 |
+|        5003 | nilu  | pune        |      2000 |        3006 | Aksha Bhome  | pune       |   400 |   7009 |    270.65 | 2023-12-04 |
+|        5002 | anu   | calinfornia |      1000 |        3006 | Aksha Bhome  | pune       |   400 |  70001 |     150.5 | 2012-10-05 |
+|        5001 | sejal | latur       |      3000 |        3006 | Aksha Bhome  | pune       |   400 |   7002 |     65.26 | 2012-10-02 |
+|        5001 | sejal | latur       |      3000 |        3006 | Aksha Bhome  | pune       |   400 |   7004 |     110.5 | 2014-08-17 |
+|      -08 |                                                                                                             |        5003 | nilu  | pune        |      2000 |        3007 | Brad Davis   | New York   |   200 |   7009 |    2
+|        5003 | nilu  | pune        |      2000 |        3007 | Brad Davis   | New York   |   200 |   7009 |    270.65 | 2023-12-04 |
+|        5002 | anu   | calinfornia |      1000 |        3007 | Brad Davis   | New York   |   200 |  70001 |     150.5 | 2012-10-05 |
+|        5001 | sejal | latur       |      3000 |        3007 | Brad Davis   | New York   |   200 |   7002 |     65.26 | 2012-10-02 |
+|        5001 | sejal | latur       |      3000 |        3007 | Brad Davis   | New York   |   200 |   7004 |     110.5 | 2014-08-17 |
++-------------+-------+-------------+-----------+-------------+--------------+------------+-------+--------+-----------+------------+
+20 rows in set (0.02 sec)
+       select s.salesman_id,s.name,s.city,s.commision,c.customer_id,c.cust_name,c.city,c.grade,o.ord_no,o.purch_amt,o.ord_date from salesman s inner join orders o on s.salesman_id=o.salesman_id inner join customer  c on c.customer_id=c.customer_id;from salesman s inner join orders o on s.salesman_id=o.salesman_id inner join customer  c on c.customer_id=c.custom
++-------------+-------+-------------+-----------+-------------+--------------+------------+-------+--------+-----------+------------+
+| salesman_id | name  | city        | commision | customer_id | cust_name    | city       | grade | ord_no | purch_amt | ord_date   |
++-------------+-------+-------------+-----------+-------------+--------------+------------+-------+--------+-----------+------------+
+|        5005 | sneha | new york    |      6000 |        3002 | Nick Rimando | New York   |   100 |   7009 |    270.65 | 2024-12-08 |
+|        5003 | nilu  | pune        |      2000 |        3002 | Nick Rimando | New York   |   100 |   7009 |    270.65 | 2023-12-04 |
+|        5002 | anu   | calinfornia |      1000 |        3002 | Nick Rimando | New York   |   100 |  70001 |     150.5 | 2012-10-05 |
+|        5001 | sejal | latur       |      3000 |        3002 | Nick Rimando | New York   |   100 |   7002 |     65.26 | 2012-10-02 |
+|        5001 | sejal | latur       |      3000 |        3002 | Nick Rimando | New York   |   100 |   7004 |     110.5 | 2014-08-17 |
+|        5005 | sneha | new york    |      6000 |        3005 | Graham Zusis | california |   200 |   7009 |    270.65 | 2024-12-08 |
+|        5003 | nilu  | pune        |      2000 |        3005 | Graham Zusis | california |   200 |   7009 |    270.65 | 2023-12-04 |
+|        5002 | anu   | calinfornia |      1000 |        3005 | Graham Zusis | california |   200 |  70001 |     150.5 | 2012-10-05 |
+|        5001 | sejal | latur       |      3000 |        3005 | Graham Zusis | california |   200 |   7002 |     65.26 | 2012-10-02 |
+|        5001 | sejal | latur       |      3000 |        3005 | Graham Zusis | california |   200 |   7004 |     110.5 | 2014-08-17 |
+|        5005 | sneha | new york    |      6000 |        3006 | Aksha Bhome  | pune       |   400 |   7009 |    270.65 | 2024-12-08 |
+|        5003 | nilu  | pune        |      2000 |        3006 | Aksha Bhome  | pune       |   400 |   7009 |    270.65 | 2023-12-04 |
+|        5002 | anu   | calinfornia |      1000 |        3006 | Aksha Bhome  | pune       |   400 |  70001 |     150.5 | 2012-10-05 |
+|        5001 | sejal | latur       |      3000 |        3006 | Aksha Bhome  | pune       |   400 |   7002 |     65.26 | 2012-10-02 |
+|        5001 | sejal | latur       |      3000 |        3006 | Aksha Bhome  | pune       |   400 |   7004 |     110.5 | 2014-08-17 |
+|        5005 | sneha | new york    |      6000 |        3007 | Brad Davis   | New York   |   200 |   7009 |    270.65 | 2024-12-08 |
+|        5003 | nilu  | pune        |      2000 |        3007 | Brad Davis   | New York   |   200 |   7009 |    270.65 | 2023-12-04 |
+|        5002 | anu   | calinfornia |      1000 |        3007 | Brad Davis   | New York   |   200 |  70001 |     150.5 | 2012-10-05 |
+|        5001 | sejal | latur       |      3000 |        3007 | Brad Davis   | New York   |   200 |   7002 |     65.26 | 2012-10-02 |
+|        5001 | sejal | latur       |      3000 |        3007 | Brad Davis   | New York   |   200 |   7004 |     110.5 | 2014-08-17 |
++-------------+-------+-------------+-----------+-------------+--------------+------------+-------+--------+-----------+------------+
+20 rows in set (0.00 sec)
+
+mysql> select s.salesman_id,s.name,s.city,s.commision,c.customer_id,c.cust_name,c.city,c.grade,o.ord_no,o.purch_amt,o.ord_date from salesman s inner join orders o on s.salesman_id=o.salesman_id inner join customer  c on c.customer_id=o.custom
+er_id; -------+-------+-------------+------
++-------------+-------+-------------+-----------+-------------+--------------+------------+-------+--------+-----------+------------+
+| salesman_id | name  | city        | commision | customer_id | cust_name    | city       | grade | ord_no | purch_amt | ord_date   |
++-------------+-------+-------------+-----------+-------------+--------------+------------+-------+--------+-----------+------------+
+|        5001 | sejal | latur       |      3000 |        3002 | Nick Rimando | New York   |   100 |   7004 |     110.5 | 2014-08-17 |
+|        5001 | sejal | latur       |      3000 |        3005 | Graham Zusis | california |   200 |   7002 |     65.26 | 2012-10-02 |
+|        5002 | anu   | calinfornia |      1000 |        3005 | Graham Zusis | california |   200 |  70001 |     150.5 | 2012-10-05 |
+|        5003 | nilu  | pune        |      2000 |        3002 | Nick Rimando | New York   |   100 |   7009 |    270.65 | 2023-12-04 |
+|        5005 | sneha | new york    |      6000 |        3007 | Brad Davis   | New York   |   200 |   7009 |    270.65 | 2024-12-08 |
++-------------+-------+-------------+-----------+-------------+--------------+------------+-------+--------+-----------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select c.cust_name as 'customer name',c.city as 'customer city',s.name as 'salesman',s.city as 'salesman city' from salesman s inner join customer c on s.salesman_id=c.salesman_id;
++---------------+---------------+----------+---------------+
+| customer name | customer city | salesman | salesman city |
++---------------+---------------+----------+---------------+
+| Nick Rimando  | New York      | sejal    | latur         |
+| Graham Zusis  | california    | anu      | calinfornia   |
+| Aksha Bhome   | pune          | sneha    | new york      |
+| Brad Davis    | New York      | sejal    | latur         |
++---------------+---------------+----------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select c.customer_id ,c.cust_name as 'customer name',c.city as 'customer city',s.name as 'salesman',s.
+city as 'salesman city' from salesman s inner join customer c on s.salesman_id=c.salesman_id;
++-------------+---------------+---------------+----------+---------------+
+| customer_id | customer name | customer city | salesman | salesman city |
++-------------+---------------+---------------+----------+---------------+
+|        3002 | Nick Rimando  | New York      | sejal    | latur         |
+|        3005 | Graham Zusis  | california    | anu      | calinfornia   |
+|        3006 | Aksha Bhome   | pune          | sneha    | new york      |
+|        3007 | Brad Davis    | New York      | sejal    | latur         |
++-------------+---------------+---------------+----------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select c.customer_id ,c.cust_name as 'customer name',c.city as 'customer city',s.name as 'salesman',s.city as 'salesman city' from salesman s inner join customer c on s.salesman_id=c.salesman_id order by c.customer_id;
++-------------+---------------+---------------+----------+---------------+
+| customer_id | customer name | customer city | salesman | salesman city |
++-------------+---------------+---------------+----------+---------------+
+|        3002 | Nick Rimando  | New York      | sejal    | latur         |
+|        3005 | Graham Zusis  | california    | anu      | calinfornia   |
+|        3006 | Aksha Bhome   | pune          | sneha    | new york      |
+|        3007 | Brad Davis    | New York      | sejal    | latur         |
++-------------+---------------+---------------+----------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select c.customer_id ,c.cust_name as 'customer name',c.city as 'customer city',s.name as 'salesman',s.city as 'salesman city' from salesman s inner join customer c on s.salesman_id=c.salesman_id order by c.customer_id desc;
++-------------+---------------+---------------+----------+---------------+
+| customer_id | customer name | customer city | salesman | salesman city |
++-------------+---------------+---------------+----------+---------------+
+|        3007 | Brad Davis    | New York      | sejal    | latur         |
+|        3006 | Aksha Bhome   | pune          | sneha    | new york      |
+|        3005 | Graham Zusis  | california    | anu      | calinfornia   |
+|        3002 | Nick Rimando  | New York      | sejal    | latur         |
++-------------+---------------+---------------+----------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select c.customer_id,c.cust_name as 'customer name',c.city as 'customer city',c.grade,s.name as 'salesman',s.city as 'salesman city' from salesman s inner join customer c on s.salesman_id=c.salesman_id order by c.customer_id asc;
++-------------+---------------+---------------+-------+----------+---------------+
+| customer_id | customer name | customer city | grade | salesman | salesman city |
++-------------+---------------+---------------+-------+----------+---------------+
+|        3002 | Nick Rimando  | New York      |   100 | sejal    | latur         |
+|        3005 | Graham Zusis  | california    |   200 | anu      | calinfornia   |
+|        3006 | Aksha Bhome   | pune          |   400 | sneha    | new york      |
+|        3007 | Brad Davis    | New York      |   200 | sejal    | latur         |
++-------------+---------------+---------------+-------+----------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select c.customer_id,c.cust_name as 'customer name',c.city as 'customer city',c.grade,s.name as 'salesman',s.city as 'salesman city' from salesman s inner join customer c on s.salesman_id=c.salesman_id order by c.customer_id desc;
++-------------+---------------+---------------+-------+----------+---------------+
+| customer_id | customer name | customer city | grade | salesman | salesman city |
++-------------+---------------+---------------+-------+----------+---------------+
+|        3007 | Brad Davis    | New York      |   200 | sejal    | latur         |
+|        3006 | Aksha Bhome   | pune          |   400 | sneha    | new york      |
+|        3005 | Graham Zusis  | california    |   200 | anu      | calinfornia   |
+|        3002 | Nick Rimando  | New York      |   100 | sejal    | latur         |
++-------------+---------------+---------------+-------+----------+---------------+
+4 rows in set (0.00 sec)
+
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no as 'orders number',o.ord_date,o.purch_amt as 'or
+der amount' from customer c inner join orders o on c.customer_id=o.customers_id;
+ERROR 1054 (42S22): Unknown column 'o.customers_id' in 'on clause'
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no as 'orders number',o.ord_date,o.purch_amt as 'order amount' from customer c inner join orders o on c.customer_id=o.customer_id;
++---------------+------------+---------------+------------+--------------+
+| customer name | city       | orders number | ord_date   | order amount |
++---------------+------------+---------------+------------+--------------+
+| Nick Rimando  | New York   |          7009 | 2023-12-04 |       270.65 |
+| Nick Rimando  | New York   |          7004 | 2014-08-17 |        110.5 |
+| Graham Zusis  | california |         70001 | 2012-10-05 |        150.5 |
+| Graham Zusis  | california |          7002 | 2012-10-02 |        65.26 |
+| Brad Davis    | New York   |          7009 | 2024-12-08 |       270.65 |
++---------------+------------+---------------+------------+--------------+
+5 rows in set (0.00 sec)
+
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no as 'orders number',o.ord_date,o.purch_amt as 'order amount' from customer c inner join orders o on c.customer_id=o.customer_id order by o.ord_date asc;
++---------------+------------+---------------+------------+--------------+
+| customer name | city       | orders number | ord_date   | order amount |
++---------------+------------+---------------+------------+--------------+
+| Graham Zusis  | california |          7002 | 2012-10-02 |        65.26 |
+| Graham Zusis  | california |         70001 | 2012-10-05 |        150.5 |
+| Nick Rimando  | New York   |          7004 | 2014-08-17 |        110.5 |
+| Nick Rimando  | New York   |          7009 | 2023-12-04 |       270.65 |
+| Brad Davis    | New York   |          7009 | 2024-12-08 |       270.65 |
++---------------+------------+---------------+------------+--------------+
+5 rows in set (0.01 sec)
+
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no as 'orders number',o.ord_date,o.purch_amt as 'or
+der amount' from customer c left join orders o on c.customer_id=o.customer_id order by o.ord_date asc;
++---------------+------------+---------------+------------+--------------+
+| customer name | city       | orders number | ord_date   | order amount |
++---------------+------------+---------------+------------+--------------+
+| Aksha Bhome   | pune       |          NULL | NULL       |         NULL |
+| Graham Zusis  | california |          7002 | 2012-10-02 |        65.26 |
+| Graham Zusis  | california |         70001 | 2012-10-05 |        150.5 |
+| Nick Rimando  | New York   |          7004 | 2014-08-17 |        110.5 |
+| Nick Rimando  | New York   |          7009 | 2023-12-04 |       270.65 |
+| Brad Davis    | New York   |          7009 | 2024-12-08 |       270.65 |
++---------------+------------+---------------+------------+--------------+
+6 rows in set (0.00 sec)
+
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no,o.ord_date,o.purch_amt,s.name as 'salesman name's.commisionfrom customer c left join salesman s c.customer_id=s.customer_id left join orders o on c.custome
+r_id=o.customer_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's.commision  from customer c left join salesman s c.customer_id=s.customer_id le' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no,o.ord_date,o.purch_amt,s.name as 'salesman name'
+s.commision  from customer c left join salesman s c.salesman_id=s.salsman_id left join orders o on c.customer
+_id=o.customer_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 's.commision  from customer c left join salesman s c.salesman_id=s.salsman_id lef' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no,o.ord_date,o.purch_amt,s.name as 'salesman name',s.commision from customer c left join salesman s c.salesman_id=s.salsman_id left join orders o on c.custome
+r_id=o.customer_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for thesselect c.cust_name as 'customer name',c.city,o.ord_no,o.ord_date,o.purch_amt,s.name as 'salesman name',s.commision from customer c left join salesman s c.salesman_id=s.salsman_id left join orders o on c.customer_id=o.customer_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'c.salesman_id=s.salsman_id left join orders o on c.customer_id=o.customer_id' at line 1
+mysql>                                                                                                               si
+mysql>                                                                                                            ;
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no,o.ord_date,o.purch_amt,s.name as 'salesman name',s.commision from customer c left join salesman s on c.salesman_id=s.salsman_id left join orders o on c.customer_id=o.customer_id;
+ERROR 1054 (42S22): Unknown column 's.salsman_id' in 'on clause'
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no,o.ord_date,o.purch_amt,s.name as 'salesman name',s.commision from customer c left join salesman s on c.salesman_id=s.salesman_id left join orders o on c.customer_id=o.customer_id;
++---------------+------------+--------+------------+-----------+---------------+-----------+
+| customer name | city       | ord_no | ord_date   | purch_amt | salesman name | commision |
++---------------+------------+--------+------------+-----------+---------------+-----------+
+| Nick Rimando  | New York   |   7009 | 2023-12-04 |    270.65 | sejal         |      3000 |
+| Nick Rimando  | New York   |   7004 | 2014-08-17 |     110.5 | sejal         |      3000 |
+| Graham Zusis  | california |  70001 | 2012-10-05 |     150.5 | anu           |      1000 |
+| Graham Zusis  | california |   7002 | 2012-10-02 |     65.26 | anu           |      1000 |
+| Aksha Bhome   | pune       |   NULL | NULL       |      NULL | sneha         |      6000 |
+| Brad Davis    | New York   |   7009 | 2024-12-08 |    270.65 | sejal         |      3000 |
++---------------+------------+--------+------------+-----------+---------------+-----------+
+6 rows in set (0.03 sec)
+
+mysql> select * from orders;
++--------+-----------+------------+-------------+-------------+
+| ord_no | purch_amt | ord_date   | customer_id | salesman_id |
++--------+-----------+------------+-------------+-------------+
+|  70001 |     150.5 | 2012-10-05 |        3005 |        5002 |
+|   7009 |    270.65 | 2023-12-04 |        3002 |        5003 |
+|   7009 |    270.65 | 2024-12-08 |        3007 |        5005 |
+|   7004 |     110.5 | 2014-08-17 |        3002 |        5001 |
+|   7002 |     65.26 | 2012-10-02 |        3005 |        5001 |
++--------+-----------+------------+-------------+-------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from customer;
++-------------+--------------+------------+-------+-------------+
+| customer_id | cust_name    | city       | grade | salesman_id |
++-------------+--------------+------------+-------+-------------+
+|        3002 | Nick Rimando | New York   |   100 |        5001 |
+|        3005 | Graham Zusis | california |   200 |        5002 |
+|        3006 | Aksha Bhome  | pune       |   400 |        5005 |
+|        3007 | Brad Davis   | New York   |   200 |        5001 |
++-------------+--------------+------------+-------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select s.name as 'salesman',count(salesman_id) as 'count' from customer c inner join salesman s on s.salesman_id=c.salesman_id  group by c.salesman_id order by asc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'asc' at line 1
+mysql> select s.name as 'salesman',count(salesman_id) as 'count' from customer c inner join salesman s on s.salesman_id=c.salesman_id  group by c.salesman_id order by salesman_id asc;
+ERROR 1052 (23000): Column 'salesman_id' in field list is ambiguous
+mysql> select s.name as 'salesman',count(salesman_id) as 'count' from customer c inner join salesman s on s.salesman_id=c.salesman_id  group by c.salesman_id order by c.salesman_id asc;
+ERROR 1052 (23000): Column 'salesman_id' in field list is ambiguous
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select s.name as 'salesman',count(salesman_id) as 'count' from customer c inner join salesman s on s.salesman_id=c.salesman_id  order by c.salesman_id asc;
+ERROR 1052 (23000): Column 'salesman_id' in field list is ambiguous
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select s.name as 'salesman',count(salesman_id) as 'count' from customer c inner join salesman s on s.salesman_id=c.salesman_id  order by s.salesman_id asc;
+ERROR 1052 (23000): Column 'salesman_id' in field list is ambiguous
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select s.name as 'salesman',count(c.customer_id) as 'count' from customer c inner join salesman s on s.salesman_id=
+c.salesman_id  order by s.salesman_id asc;
+ERROR 1140 (42000): In aggregated query without GROUP BY, expression #1 of SELECT list contains nonaggregated column 'salesman.s.name'; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql> select s.name as 'salesman',count(c.customer_id) as 'count' from customer c inner join salesman s on s.salesman_id=c.salesman_id  group by s.name order by s.salesman_id asc;
+ERROR 1055 (42000): Expression #1 of ORDER BY clause is not in GROUP BY clause and contains nonaggregated column 'salesman.s.salesman_id' which is not functionally dependent on columns in GROUP BY clause; this is incompatible with sql_mode=only_full_group_by
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select s.name as 'salesman',count(c.customer_id) as 'count' from customer c inner join salesman s on s.salesman_id=c.salesman_id  group by s.name order by s.name asc;
++----------+-------+
+| salesman | count |
++----------+-------+
+| anu      |     1 |
+| sejal    |     2 |
+| sneha    |     1 |
++----------+-------+
+3 rows in set (0.02 sec)
+
+mysql> select s.name as 'salesman',count(c.customer_id) as 'count' from salesman c left join salesman s on s.salesman_id=c
+.salesman_id  group by s.name order by s.name asc;
+ERROR 1054 (42S22): Unknown column 'c.customer_id' in 'field list'
+mysql>
+mysql>
+mysql> select s.name as 'salesman',count(c.customer_id) as 'count' from salesman c left join salesman s on s.customer_id=c
+.customer_id  group by s.name order by s.name asc;
+ERROR 1054 (42S22): Unknown column 'c.customer_id' in 'field list'
+mysql> select s.name as 'salesman',count(c.customer_id) as 'count' from salesman c left join customer c on s.customer_id=c
+.customer_id  group by s.name order by s.name asc;
+ERROR 1066 (42000): Not unique table/alias: 'c'
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select s.name as 'salesman',count(c.customer_id) as 'count' from salesman c left join customer c on s.salesman_id=c
+.salesman_id  group by s.name order by s.name asc;
+ERROR 1066 (42000): Not unique table/alias: 'c'
+mysql>
+mysql>
+mysql>
+mysql> select c.cust_name as 'customer name',c.city,c.grade,o.ord_no as 'order name',ord_date as 'order date',o.purch_amt as 'amount' from customer c inner join orders o on c.customer_id=o.customer_id inner join salesman s on s.salesman_id=o.salesman_id;
++---------------+------------+-------+------------+------------+--------+
+| customer name | city       | grade | order name | order date | amount |
++---------------+------------+-------+------------+------------+--------+
+| Nick Rimando  | New York   |   100 |       7009 | 2023-12-04 | 270.65 |
+| Nick Rimando  | New York   |   100 |       7004 | 2014-08-17 |  110.5 |
+| Graham Zusis  | california |   200 |      70001 | 2012-10-05 |  150.5 |
+| Graham Zusis  | california |   200 |       7002 | 2012-10-02 |  65.26 |
+| Brad Davis    | New York   |   200 |       7009 | 2024-12-08 | 270.65 |
++---------------+------------+-------+------------+------------+--------+
+5 rows in set (0.01 sec)
+
+mysql> select c.cust_name as 'customer name',c.city,c.grade,o.ord_no as 'order name',ord_date as 'order date',o.purch_amt
+ as 'amount' from salesman left join orders o on s.salesman_id=o.salesman_id left join join customer c on s.salesman_id=c.salesman_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'join customer c on s.salesman_id=c.salesman_id' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select c.cust_name as 'customer name',c.city,c.grade,o.ord_no as 'order name',ord_date as 'order date',o.purch_amt as 'amount' from salesman s left join orders o on s.salesman_id=o.salesman_id left join customer c on s.salesman_id=c.salesman_id;
++---------------+------------+-------+------------+------------+--------+
+| customer name | city       | grade | order name | order date | amount |
++---------------+------------+-------+------------+------------+--------+
+| Brad Davis    | New York   |   200 |       7004 | 2014-08-17 |  110.5 |
+| Nick Rimando  | New York   |   100 |       7004 | 2014-08-17 |  110.5 |
+| Brad Davis    | New York   |   200 |       7002 | 2012-10-02 |  65.26 |
+| Nick Rimando  | New York   |   100 |       7002 | 2012-10-02 |  65.26 |
+| Graham Zusis  | california |   200 |      70001 | 2012-10-05 |  150.5 |
+| NULL          | NULL       |  NULL |       7009 | 2023-12-04 | 270.65 |
+| Aksha Bhome   | pune       |   400 |       7009 | 2024-12-08 | 270.65 |
++---------------+------------+-------+------------+------------+--------+
+7 rows in set (0.03 sec)
+
+mysql> select * from salesman;
++-------------+-------+-------------+-----------+
+| salesman_id | name  | city        | commision |
++-------------+-------+-------------+-----------+
+|        5001 | sejal | latur       |      3000 |
+|        5002 | anu   | calinfornia |      1000 |
+|        5003 | nilu  | pune        |      2000 |
+|        5005 | sneha | new york    |      6000 |
++-------------+-------+-------------+-----------+
+4 rows in set (0.01 sec)
+
+mysql> select s.name as 'salesman name ', c.cust_name as 'customer name',c.city,c.grade,o.ord_no as 'order name',ord_dateas 'order date',o.purch_amt  as 'amount' from salesman s left join orders o on s.salesman_id=o.salesman_id left join customer c on s.salesman_id=c.salesman_id;
++----------------+---------------+------------+-------+------------+------------+--------+
+| salesman name  | customer name | city       | grade | order name | order date | amount |
++----------------+---------------+------------+-------+------------+------------+--------+
+| sejal          | Brad Davis    | New York   |   200 |       7004 | 2014-08-17 |  110.5 |
+| sejal          | Nick Rimando  | New York   |   100 |       7004 | 2014-08-17 |  110.5 |
+| sejal          | Brad Davis    | New York   |   200 |       7002 | 2012-10-02 |  65.26 |
+| sejal          | Nick Rimando  | New York   |   100 |       7002 | 2012-10-02 |  65.26 |
+| anu            | Graham Zusis  | california |   200 |      70001 | 2012-10-05 |  150.5 |
+| nilu           | NULL          | NULL       |  NULL |       7009 | 2023-12-04 | 270.65 |
+| sneha          | Aksha Bhome   | pune       |   400 |       7009 | 2024-12-08 | 270.65 |
++----------------+---------------+------------+-------+------------+------------+--------+
+7 rows in set (0.00 sec)
+
+mysql> select s.name as 'salesman name', c.cust_name as 'customer name' from salesman s cross join customer c ;
++---------------+---------------+
+| salesman name | customer name |
++---------------+---------------+
+| sneha         | Nick Rimando  |
+| nilu          | Nick Rimando  |
+| anu           | Nick Rimando  |
+| sejal         | Nick Rimando  |
+| sneha         | Graham Zusis  |
+| nilu          | Graham Zusis  |
+| anu           | Graham Zusis  |
+| sejal         | Graham Zusis  |
+| sneha         | Aksha Bhome   |
+| nilu          | Aksha Bhome   |
+| anu           | Aksha Bhome   |
+| sejal         | Aksha Bhome   |
+| sneha         | Brad Davis    |
+| nilu          | Brad Davis    |
+| anu           | Brad Davis    |
+| sejal         | Brad Davis    |
++---------------+---------------+
+16 rows in set (0.00 sec)
+
+mysql> select s.name as 'salesman name', c.cust_name as 'customer name' from salesman s cross join customer c where s.city=c.city;
++---------------+---------------+
+| salesman name | customer name |
++---------------+---------------+
+| sneha         | Nick Rimando  |
+| nilu          | Aksha Bhome   |
+| sneha         | Brad Davis    |
++---------------+---------------+
+3 rows in set (0.01 sec)
+
+mysql> select s.name as 'salesman name', c.cust_name as 'customer name' ,c.garde from salesman s cross join customer c whe
+re s.city=c.city and c.grade;
+ERROR 1054 (42S22): Unknown column 'c.garde' in 'field list'
+mysql> select s.name as 'salesman name', c.cust_name as 'customer name' ,c.grade from salesman s cross join customer c whe
+re s.city=c.city and c.grade;
++---------------+---------------+-------+
+| salesman name | customer name | grade |
++---------------+---------------+-------+
+| nilu          | Aksha Bhome   |   400 |
+| sneha         | Brad Davis    |   200 |
+| sneha         | Nick Rimando  |   100 |
++---------------+---------------+-------+
+3 rows in set (0.00 sec)
+
+mysql> select * from customer;
++-------------+--------------+------------+-------+-------------+
+| customer_id | cust_name    | city       | grade | salesman_id |
++-------------+--------------+------------+-------+-------------+
+|        3002 | Nick Rimando | New York   |   100 |        5001 |
+|        3005 | Graham Zusis | california |   200 |        5002 |
+|        3006 | Aksha Bhome  | pune       |   400 |        5005 |
+|        3007 | Brad Davis   | New York   |   200 |        5001 |
++-------------+--------------+------------+-------+-------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from salesman;
++-------------+-------+-------------+-----------+
+| salesman_id | name  | city        | commision |
++-------------+-------+-------------+-----------+
+|        5001 | sejal | latur       |      3000 |
+|        5002 | anu   | calinfornia |      1000 |
+|        5003 | nilu  | pune        |      2000 |
+|        5005 | sneha | new york    |      6000 |
++-------------+-------+-------------+-----------+
+4 rows in set (0.00 sec)
+
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no as 'order number',o.ord_date as 'order date',o.purch_amt as 'purches amount' from orders o left join customer c c.customer_id=o.customer_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'c.customer_id=o.customer_id' at line 1
+mysql>
+mysql>
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no as 'order number',o.ord_date as 'order date',o.purch_amt as 'purches amount' from orders o left join customer c on c.customer_id=o.customer_id;
++---------------+------------+--------------+------------+----------------+
+| customer name | city       | order number | order date | purches amount |
++---------------+------------+--------------+------------+----------------+
+| Graham Zusis  | california |        70001 | 2012-10-05 |          150.5 |
+| Nick Rimando  | New York   |         7009 | 2023-12-04 |         270.65 |
+| Brad Davis    | New York   |         7009 | 2024-12-08 |         270.65 |
+| Nick Rimando  | New York   |         7004 | 2014-08-17 |          110.5 |
+| Graham Zusis  | california |         7002 | 2012-10-02 |          65.26 |
++---------------+------------+--------------+------------+----------------+
+5 rows in set (0.00 sec)
+
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no as 'order number',o.ord_date as 'order date',o.purch_amt as 'purches amount' from customer c left join order o on c.customer_id=o.customer_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order o on c.customer_id=o.customer_id' at line 1
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no as 'order number',o.ord_date as 'order date',o.purch_amt as 'purches amount' from customer c left join order o on o.customer_id=c.customer_id;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'order o on o.customer_id=c.customer_id' at line 1
+mysql>
+mysql>
+mysql>
+mysql> select c.cust_name as 'customer name',c.city,o.ord_no as 'order number',o.ord_date as 'order date',o.purch_amt as 'purches amount' from customer c left join orders o on o.customer_id=c.customer_id;
++---------------+------------+--------------+------------+----------------+
+| customer name | city       | order number | order date | purches amount |
++---------------+------------+--------------+------------+----------------+
+| Nick Rimando  | New York   |         7009 | 2023-12-04 |         270.65 |
+| Nick Rimando  | New York   |         7004 | 2014-08-17 |          110.5 |
+| Graham Zusis  | california |        70001 | 2012-10-05 |          150.5 |
+| Graham Zusis  | california |         7002 | 2012-10-02 |          65.26 |
+| Aksha Bhome   | pune       |         NULL | NULL       |           NULL |
+| Brad Davis    | New York   |         7009 | 2024-12-08 |         270.65 |
++---------------+------------+--------------+------------+----------------+
+6 rows in set (0.00 sec)
+
+mysql>

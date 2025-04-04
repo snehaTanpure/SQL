@@ -1,0 +1,212 @@
+
+7. Stored Procedures
+
+
+
+Create a procedure that adds a new employee to the Employee table.
+
+mysql> select * from employees;
+ 
++--------+-------------+----------------+--------------+--------+
+| Emp_ID | Emp_name    | Emp_department | Emp_hiredate | Salary |
++--------+-------------+----------------+--------------+--------+
+|      1 | John Smith  | Sales          | 2020-01-01   |  20000 |
+|      2 | Jane Doe    | Marketing      | 2020-06-01   |  50000 |
+|      3 | Bob Johnson | Sales          | 2021-01-01   |  15000 |
+|      4 | Alice Brown | Marketing      | 2021-06-01   |  35000 |
++--------+-------------+----------------+--------------+--------+
+4 rows in set (0.00 sec)
+
+mysql> delimiter //
+mysql> create procedure emppro(Emp_id int ,emp_name varchar(50),emp_department varchar(50),emp_hiredate varchar(50),salary int)
+    -> begin
+    -> insert into employees values (emp_id,emp_name,emp_department,emp_hiredate,salary);
+    -> end
+    -> //
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> call emppro(6,'sneha','computer','2002-12-04',20000) //
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from employees //
++--------+-------------+----------------+--------------+--------+
+| Emp_ID | Emp_name    | Emp_department | Emp_hiredate | Salary |
++--------+-------------+----------------+--------------+--------+
+|      1 | John Smith  | Sales          | 2020-01-01   |  20000 |
+|      2 | Jane Doe    | Marketing      | 2020-06-01   |  50000 |
+|      3 | Bob Johnson | Sales          | 2021-01-01   |  15000 |
+|      4 | Alice Brown | Marketing      | 2021-06-01   |  35000 |
+|      6 | sneha       | computer       | 2002-12-04   |  20000 |
++--------+-------------+----------------+--------------+--------+
+5 rows in set (0.00 sec)
+
+
+
+
+Write a stored procedure to update the salary of an employee.
+
+mysql> delimiter //
+mysql> create procedure emp1(emp_id int , salary int)
+    -> begin
+    -> update employees set salary=salary where emp_id=emp_id;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call emp1(1,125000) //
+
+Query OK, 5 rows affected (0.01 sec)
+
+mysql> select * from employees //
++--------+-------------+----------------+--------------+--------+
+| Emp_ID | Emp_name    | Emp_department | Emp_hiredate | Salary |
++--------+-------------+----------------+--------------+--------+
+|      1 | John Smith  | Sales          | 2020-01-01   | 125000 |
+|      2 | Jane Doe    | Marketing      | 2020-06-01   | 125000 |
+|      3 | Bob Johnson | Sales          | 2021-01-01   | 125000 |
+|      4 | Alice Brown | Marketing      | 2021-06-01   | 125000 |
+|      6 | sneha       | computer       | 2002-12-04   | 125000 |
++--------+-------------+----------------+--------------+--------+
+5 rows in set (0.00 sec)
+
+
+
+mysql> create procedure emp2(id int , sal int)
+    -> begin
+    -> update employees set salary=sal where emp_id=id;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call emp2(2,40000)//
+
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from employees //
++--------+-------------+----------------+--------------+--------+
+| Emp_ID | Emp_name    | Emp_department | Emp_hiredate | Salary |
++--------+-------------+----------------+--------------+--------+
+|      1 | John Smith  | Sales          | 2020-01-01   | 125000 |
+|      2 | Jane Doe    | Marketing      | 2020-06-01   |  40000 |
+|      3 | Bob Johnson | Sales          | 2021-01-01   | 125000 |
+|      4 | Alice Brown | Marketing      | 2021-06-01   | 125000 |
+|      6 | sneha       | computer       | 2002-12-04   | 125000 |
++--------+-------------+----------------+--------------+--------+
+5 rows in set (0.00 sec)
+
+
+
+Create a procedure that retrieves all orders for a given customer.
+
+mysql> delimiter //
+mysql> create procedure emp3(In c_id int,out o_id int)
+    -> begin
+    -> select cust_id,count(ord_id) from orders group by cust_id;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call emp3(1)//
+
+mysql> call emp3(1,@qwert)//
++---------+---------------+
+| cust_id | count(ord_id) |
++---------+---------------+
+|       1 |             2 |
+|       2 |             1 |
+|       3 |             1 |
+|       4 |             1 |
++---------+---------------+
+4 rows in set (0.03 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+
+
+Write a stored procedure that deletes all inactive customers.
+
+
+Write a stored procedure that calculates the total sales for a given year.
+
+mysql> drop procedure sale1//
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter //
+mysql> create procedure sale1(In year int,Out amount int)
+    -> begin
+    -> select year(sal_date),sum(sal_amt) from sales group by year(sal_date);
+    -> end
+    -> //
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> call sale1(2022,@werty) //
++----------------+--------------+
+| year(sal_date) | sum(sal_amt) |
++----------------+--------------+
+|           2022 |      1000.00 |
++----------------+--------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+Create a procedure that lists all orders placed in the last month.
+
+mysql> delimiter //
+mysql> create procedure monthh()
+    -> begin
+    -> select month(ord_date),sum(total) from orders group by month(ord_date) order by month(ord_date) desc;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> call monthh() //
++-----------------+------------+
+| month(ord_date) | sum(total) |
++-----------------+------------+
+|               4 |    4500.00 |
+|               3 |    1500.00 |
+|               2 |    3000.00 |
+|               1 |    1000.00 |
++-----------------+------------+
+4 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+Create a procedure that calculates the total inventory value.
+
+
+Write a procedure to find all products below the minimum stock level.
+
+
+Create a procedure to retrieve all products within a given price range.
+
+mysql> drop procedure pro //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> delimiter //
+mysql> create procedure pro(In salamt1 int,In salamt2 int)
+    -> begin
+    -> select pro_name,sal_amt from sales where sal_amt between salamt1 and salamt2;
+    -> end
+    -> //
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> call pro(200,300)//
++------------+---------+
+| pro_name   | sal_amt |
++------------+---------+
+| Product B  |  200.00 |
+| Product C  |  300.00 |
+| Product D  |  250.00 |
++------------+---------+
+3 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+Write a stored procedure that calculates the average order amount for a customer.

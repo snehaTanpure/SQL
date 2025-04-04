@@ -1,0 +1,350 @@
+mysql> use  second_revision;
+Database changed
+
+
+mysql> show tables;
++---------------------------+
+| Tables_in_second_revision |
++---------------------------+
+| admissions                |
+| doctor1                   |
+| patients                  |
+| province                  |
++---------------------------+
+4 rows in set (0.00 sec)
+
+mysql> drop table doctor1;
+ERROR 3730 (HY000): Cannot drop table 'doctor1' referenced by a foreign key constraint 'admissions_ibfk_1' on table 'admissions'.
+
+mysql> drop table admission;;
+ERROR 1051 (42S02): Unknown table 'second_revision.admission'
+ERROR:
+No query specified
+
+mysql> drop table admissions;
+ERROR 3730 (HY000): Cannot drop table 'admissions' referenced by a foreign key constraint 'patients_ibfk_1' on table 'patients'.
+mysql> turncate doctor1;
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'turncate doctor1' at line 1
+
+mysql> drop database second_revision;
+Query OK, 4 rows affected (0.06 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+6 rows in set (0.00 sec)
+
+mysql> create database second_revision;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> use second_revision;
+Database changed
+
+mysql> create table doctors(doctor_id int primary key,first_name varchar(50)not null,last_name varchar(50) not null,speciality varchar(50) not null);
+Query OK, 0 rows affected (0.03 sec)
+
+
+mysql> create table province(province_id int primary key,province_name varchar(50) not null);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table patients(patients_id int primary key,first_name varchar(50) not null,last_name varchar(50) not null,gender char(1) not null,birth_date date,city varchar(50), province_id int, foreign key(province_id) referenc
+es province(province_id),allergies varchar(80),height int(10),weight int(10));
+Query OK, 0 rows affected, 2 warnings (0.04 sec)
+
+
+mysql> create table admission(patients_id int, foreign key(patients_id) references patients(patients_id),admission_date date,discharge_date date,disgnosis varchar(50),doctor_id int, foreign key(doctor_id) references doctors(doct
+or_id));
+Query OK, 0 rows affected (0.07 sec)
+
+
+mysql> desc doctors;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| doctor_id  | int         | NO   | PRI | NULL    |       |
+| first_name | varchar(50) | NO   |     | NULL    |       |
+| last_name  | varchar(50) | NO   |     | NULL    |       |
+| speciality | varchar(50) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc patients;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| patients_id | int         | NO   | PRI | NULL    |       |
+| first_name  | varchar(50) | NO   |     | NULL    |       |
+| last_name   | varchar(50) | NO   |     | NULL    |       |
+| gender      | char(1)     | NO   |     | NULL    |       |
+| birth_date  | date        | YES  |     | NULL    |       |
+| city        | varchar(50) | YES  |     | NULL    |       |
+| province_id | int         | YES  | MUL | NULL    |       |
+| allergies   | varchar(80) | YES  |     | NULL    |       |
+| height      | int         | YES  |     | NULL    |       |
+| weight      | int         | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> desc province;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| province_id   | int         | NO   | PRI | NULL    |       |
+| province_name | varchar(50) | NO   |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc admission;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| patients_id    | int         | YES  | MUL | NULL    |       |
+| admission_date | date        | YES  |     | NULL    |       |
+| discharge_date | date        | YES  |     | NULL    |       |
+| disgnosis      | varchar(50) | YES  |     | NULL    |       |
+| doctor_id      | int         | YES  | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> INSERT INTO doctors (doctor_id, first_name, last_name, speciality) VALUES (1, 'John', 'Doe', 'Cardiology'), (2, 'Jane', 'Smith', 'Neurology'), (3, 'Emily', 'Jones', 'Pediatrics'),
+     (4, 'Michael', 'Brown', 'Orthopedics'), (5, 'Sarah', 'Davis', 'Dermatology'), (6, 'David', 'Wilson', 'General Practice'), (7, 'Anna', 'Taylor', 'Radiology');
+
+Query OK, 7 rows affected (0.01 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+mysql> select * from doctors;
++-----------+------------+-----------+------------------+
+| doctor_id | first_name | last_name | speciality       |
++-----------+------------+-----------+------------------+
+|         1 | John       | Doe       | Cardiology       |
+|         2 | Jane       | Smith     | Neurology        |
+|         3 | Emily      | Jones     | Pediatrics       |
+|         4 | Michael    | Brown     | Orthopedics      |
+|         5 | Sarah      | Davis     | Dermatology      |
+|         6 | David      | Wilson    | General Practice |
+|         7 | Anna       | Taylor    | Radiology        |
++-----------+------------+-----------+------------------+
+7 rows in set (0.00 sec)
+
+
+mysql> INSERT INTO province (province_id, province_name) VALUES (1, 'Ontario'),(2, 'Quebec'),(3, 'British Columbia'),(4, 'Alberta'),(5, 'Manitoba'), (6, 'Saskatchewan'), (7, 'Nova Scotia');
+
+Query OK, 7 rows affected (0.02 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+
+mysql>
+mysql> INSERT INTO patients (patients_id, first_name, last_name, gender, birth_date, city, province_id, allergies, height, weight) VALUES (1, 'Alice', 'Johnson', 'F', '1985-03-15', 'Toronto', 1, 'Peanuts', 165, 70);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into patients values(2, 'Bob', 'Smith', 'M', '1992-07-22', 'Montreal', 2, 'None', 180, 82);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  insert into patients values (3, 'Charlie', 'Brown', 'M', '1980-11-05', 'Vancouver', 3, 'Shellfish', 175, 68);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into patients values(4, 'Diana', 'Prince', 'F', '1995-06-30', 'Calgary', 4, 'None', 160, 60);
+Query OK, 1 row affected (0.02 sec)
+
+mysql>  insert into patients values(5, 'Ella', 'Williams', 'F', '1978-09-12', 'Winnipeg', 6, 'Latex', 170, 75);
+Query OK, 1 row affected (0.03 sec)
+
+mysql>  insert into patients values(6, 'Frank', 'Miller', 'M', '1990-12-25', 'Regina', 5, 'Pollen', 185, 90);
+Query OK, 1 row affected (0.00 sec)
+
+mysql>  insert into patients values(7, 'Grace', 'Davis', 'F', '1988-04-18', 'Halifax', 7, 'None', 158, 55);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  insert into patients values(8, 'Hank', 'Garcia', 'M', '1983-10-10', 'St. John’s', 3, 'Dairy', 178, 77);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  insert into patients values(9, 'Ivy', 'Martinez', 'F', '1991-05-22', 'Charlottetown', 5, 'None', 162, 62);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  insert into patients values(10, 'Jack', 'Wilson', 'M', '1986-08-04', 'Fredericton', 2, 'None', 176, 80);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>  insert into patients values(11, 'Jack', 'Wilson', 'M', '1986-08-04', 'Fredericton', 2, 'None', 176, 80);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from doctors;
++-----------+------------+-----------+------------------+
+| doctor_id | first_name | last_name | speciality       |
++-----------+------------+-----------+------------------+
+|         1 | John       | Doe       | Cardiology       |
+|         2 | Jane       | Smith     | Neurology        |
+|         3 | Emily      | Jones     | Pediatrics       |
+|         4 | Michael    | Brown     | Orthopedics      |
+|         5 | Sarah      | Davis     | Dermatology      |
+|         6 | David      | Wilson    | General Practice |
+|         7 | Anna       | Taylor    | Radiology        |
++-----------+------------+-----------+------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from province;
++-------------+------------------+
+| province_id | province_name    |
++-------------+------------------+
+|           1 | Ontario          |
+|           2 | Quebec           |
+|           3 | British Columbia |
+|           4 | Alberta          |
+|           5 | Manitoba         |
+|           6 | Saskatchewan     |
+|           7 | Nova Scotia      |
++-------------+------------------+
+7 rows in set (0.00 sec)
+
+mysql> select * from patients;
++-------------+------------+-----------+--------+------------+---------------+-------------+-----------+--------+--------+
+| patients_id | first_name | last_name | gender | birth_date | city          | province_id | allergies | height | weight |
++-------------+------------+-----------+--------+------------+---------------+-------------+-----------+--------+--------+
+|           1 | Alice      | Johnson   | F      | 1985-03-15 | Toronto       |           1 | Peanuts   |    165 |     70 |
+|           2 | Bob        | Smith     | M      | 1992-07-22 | Montreal      |           2 | None      |    180 |     82 |
+|           3 | Charlie    | Brown     | M      | 1980-11-05 | Vancouver     |           3 | Shellfish |    175 |     68 |
+|           4 | Diana      | Prince    | F      | 1995-06-30 | Calgary       |           4 | None      |    160 |     60 |
+|           5 | Ella       | Williams  | F      | 1978-09-12 | Winnipeg      |           6 | Latex     |    170 |     75 |
+|           6 | Frank      | Miller    | M      | 1990-12-25 | Regina        |           5 | Pollen    |    185 |     90 |
+|           7 | Grace      | Davis     | F      | 1988-04-18 | Halifax       |           7 | None      |    158 |     55 |
+|           8 | Hank       | Garcia    | M      | 1983-10-10 | St. John?s    |           3 | Dairy     |    178 |     77 |
+|           9 | Ivy        | Martinez  | F      | 1991-05-22 | Charlottetown |           5 | None      |    162 |     62 |
+|          10 | Jack       | Wilson    | M      | 1986-08-04 | Fredericton   |           2 | None      |    176 |     80 |
+|          11 | Jack       | Wilson    | M      | 1986-08-04 | Fredericton   |           2 | None      |    176 |     80 |
++-------------+------------+-----------+--------+------------+---------------+-------------+-----------+--------+--------+
+11 rows in set (0.00 sec)
+
+
+mysql> desc  admission;
++----------------+-------------+------+-----+---------+-------+
+| Field          | Type        | Null | Key | Default | Extra |
++----------------+-------------+------+-----+---------+-------+
+| patients_id    | int         | YES  | MUL | NULL    |       |
+| admission_date | date        | YES  |     | NULL    |       |
+| discharge_date | date        | YES  |     | NULL    |       |
+| disgnosis      | varchar(50) | YES  |     | NULL    |       |
+| doctor_id      | int         | YES  | MUL | NULL    |       |
++----------------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> insert into admission values(1,'2002-12-04','2003-08-15','Pneumonia',5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(2,'2002-12-10','2023-08-10','Fracture',2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(3,'2000-5-4','2005-08-10','Fracture',3);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into admission values(4,'2024-6-14','2015-3-11','Chest pain',4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(5,'2030-6-14','2015-3-11','Migraine',6);
+Query OK, 1 row affected (0.03 sec)
+
+mysql> insert into admission values(8,'2012-3-15','2019-3-13','Migraine',7);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(10,'2003-3-15','2004-3-13','head pain',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(10,'2003-3-15','2004-3-13','pain',1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(7,'2003-3-15','2014-3-13','head pain',3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(8,'2003-3-15','2023-3-13','chest pain',3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(7,'2003-3-15','2023-3-13','chest pain',3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(2,'2003-3-15','2023-3-13','Pneumonia',4);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into admission values(8,'2003-3-15','2023-3-13','chest pain',3);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> select * from admission;
++-------------+----------------+----------------+------------+-----------+
+| patients_id | admission_date | discharge_date | disgnosis  | doctor_id |
++-------------+----------------+----------------+------------+-----------+
+|           1 | 2002-12-04     | 2003-08-15     | Pneumonia  |         5 |
+|           2 | 2002-12-10     | 2023-08-10     | Fracture   |         2 |
+|           3 | 2000-05-04     | 2005-08-10     | Fracture   |         3 |
+|           4 | 2024-06-14     | 2015-03-11     | Chest pain |         4 |
+|           5 | 2030-06-14     | 2015-03-11     | Migraine   |         6 |
+|           8 | 2012-03-15     | 2019-03-13     | Migraine   |         7 |
+|          10 | 2003-03-15     | 2004-03-13     | head pain  |         1 |
+|          10 | 2003-03-15     | 2004-03-13     | pain       |         1 |
+|           7 | 2003-03-15     | 2014-03-13     | head pain  |         3 |
+|           8 | 2003-03-15     | 2023-03-13     | chest pain |         3 |
+|           7 | 2003-03-15     | 2023-03-13     | chest pain |         3 |
+|           2 | 2003-03-15     | 2023-03-13     | Pneumonia  |         4 |
+|           8 | 2003-03-15     | 2023-03-13     | chest pain |         3 |
++-------------+----------------+----------------+------------+-----------+
+13 rows in set (0.00 sec)
+
+mysql>
+
+
+Q2. WA SQL Query to display the patient admission count date wise?
+====================================================================================
+
+
+mysql> select admission_date,count(admission_date) as 'Patients_count' from admission  group by admission_date order by admission_date;
++----------------+----------------+
+| admission_date | Patients_count |
++----------------+----------------+
+| 2000-05-04     |              1 |
+| 2002-12-04     |              1 |
+| 2002-12-10     |              1 |
+| 2003-03-15     |              7 |
+| 2012-03-15     |              1 |
+| 2024-06-14     |              1 |
+| 2030-06-14     |              1 |
++----------------+----------------+
+7 rows in set (0.00 sec)
+
+
+
+Q5. WA SQL Query to show the patient with its provenance details?
+=======================================================================================
+
+mysql> select * from patients  p inner join province p1 on p.patients_id=p1.
+province_id;
++-------------+------------+-----------+--------+------------+-----------+-------------+-----------+--------+--------+-------------+------------------+
+| patients_id | first_name | last_name | gender | birth_date | city      | province_id | allergies | height | weight | province_id | province_name    |
++-------------+------------+-----------+--------+------------+-----------+-------------+-----------+--------+--------+-------------+------------------+
+|           1 | Alice      | Johnson   | F      | 1985-03-15 | Toronto   |           1 | Peanuts   |    165 |     70 |           1 | Ontario          |
+|           2 | Bob        | Smith     | M      | 1992-07-22 | Montreal  |           2 | None      |    180 |     82 |           2 | Quebec           |
+|           3 | Charlie    | Brown     | M      | 1980-11-05 | Vancouver |           3 | Shellfish |    175 |     68 |           3 | British Columbia |
+|           4 | Diana      | Prince    | F      | 1995-06-30 | Calgary   |           4 | None      |    160 |     60 |           4 | Alberta          |
+|           5 | Ella       | Williams  | F      | 1978-09-12 | Winnipeg  |           6 | Latex     |    170 |     75 |           5 | Manitoba         |
+|           6 | Frank      | Miller    | M      | 1990-12-25 | Regina    |           5 | Pollen    |    185 |     90 |           6 | Saskatchewan     |
+|           7 | Grace      | Davis     | F      | 1988-04-18 | Halifax   |           7 | None      |    158 |     55 |           7 | Nova Scotia      |
++-------------+------------+-----------+--------+------------+-----------+-------------+-----------+--------+--------+-------------+------------------+
+7 rows in set (0.00 sec)
+
+
+
+Q7. WA SQL Query to show the patient whose birth date is the same?
+=======================================================================================
+
+mysql> select count(birth_date),birth_date from patients group by birth_date having  count(birth_date)>1 order by birth_date;
++-------------------+------------+
+| count(birth_date) | birth_date |
++-------------------+------------+
+|                 2 | 1986-08-04 |
++-------------------+------------+
+1 row in set (0.00 sec)
+

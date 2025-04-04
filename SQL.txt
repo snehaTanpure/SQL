@@ -1,0 +1,244 @@
++--------------------+
+| Database           |
++--------------------+
+| college            |
+| company            |
+| employee           |
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| world              |
++--------------------+
+9 rows in set (0.00 sec)
+
+mysql> use emplyoee;
+
+ERROR 1049 (42000): Unknown database 'emplyoee';
+
+mysql> use employee;
+Database changed
+
+mysql> create table customer(id int primary key auto_increment,name varchar(200)not null unique , email varchar(200) not null unique, contact varchar(200) not null unique, salary varchar(200),city varchar(200),discount double);
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> desc customer;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int          | NO   | PRI | NULL    | auto_increment |
+| name     | varchar(200) | NO   | UNI | NULL    |                |
+| email    | varchar(200) | NO   | UNI | NULL    |                |
+| contact  | varchar(200) | NO   | UNI | NULL    |                |
+| salary   | varchar(200) | YES  |     | NULL    |                |
+| city     | varchar(200) | YES  |     | NULL    |                |
+| discount | double       | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+7 rows in set (0.02 sec)
+
+
+
+mysql> alter table customer modify salary double;
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table customer modify contact varchar(10);
+Query OK, 0 rows affected (0.17 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc customer;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int          | NO   | PRI | NULL    | auto_increment |
+| name     | varchar(200) | NO   | UNI | NULL    |                |
+| email    | varchar(200) | NO   | UNI | NULL    |                |
+| contact  | varchar(10)  | YES  | UNI | NULL    |                |
+| salary   | double       | YES  |     | NULL    |                |
+| city     | varchar(200) | YES  |     | NULL    |                |
+| discount | double       | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> alter table customer modify contact varchar(10) not null unique;
+Query OK, 0 rows affected, 1 warning (0.15 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> desc customer;
++----------+--------------+------+-----+---------+----------------+
+| Field    | Type         | Null | Key | Default | Extra          |
++----------+--------------+------+-----+---------+----------------+
+| id       | int          | NO   | PRI | NULL    | auto_increment |
+| name     | varchar(200) | NO   | UNI | NULL    |                |
+| email    | varchar(200) | NO   | UNI | NULL    |                |
+| contact  | varchar(10)  | NO   | UNI | NULL    |                |
+| salary   | double       | YES  |     | NULL    |                |
+| city     | varchar(200) | YES  |     | NULL    |                |
+| discount | double       | YES  |     | NULL    |                |
++----------+--------------+------+-----+---------+----------------+
+7 rows in set (0.00 sec)
+
+mysql> insert into customer (name,email,contact,salary,city,discount) values('ashish','aashistanpure@gmail.com','9021578233',53000,'pune',13000),('sneha','tanpure@gmail.com','9221578233',50000,'sanvi',20000),('asmii','asmiitanpure@gmail.com','9021538233',530000,'dilhi',10000),('kunal','kunal@gmail.com','9021518233',200000,'pune',40000),('shravni','shravnitanpure@gmail.com','9021578213',20000,'pune',1000),('kaushik','kaushiktanpure@gmail.com','9021508233',60000,'nashik',30000),('tejas','tejastanpure@gmail.com','9021378233',30000,'mumbai',50000),('aaru','aarutanpure@gmail.com','9021578253',300000,'pune',6000),('sanika','sanika@gmail.com','9021548233',700000,'dilhi',5000),('sharu','sharutanpure@gmail.com','9021723233',400000,'mumbai',20000);
+
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from customer;
++----+---------+--------------------------+------------+--------+--------+----------+
+| id | name    | email                    | contact    | salary | city   | discount |
++----+---------+--------------------------+------------+--------+--------+----------+
+| 21 | ashish  | aashistanpure@gmail.com  | 9021578233 |  53000 | pune   |    13000 |
+| 22 | sneha   | tanpure@gmail.com        | 9221578233 |  50000 | sanvi  |    20000 |
+| 23 | asmii   | asmiitanpure@gmail.com   | 9021538233 | 530000 | dilhi  |    10000 |
+| 24 | kunal   | kunal@gmail.com          | 9021518233 | 200000 | pune   |    40000 |
+| 25 | shravni | shravnitanpure@gmail.com | 9021578213 |  20000 | pune   |     1000 |
+| 26 | kaushik | kaushiktanpure@gmail.com | 9021508233 |  60000 | nashik |    30000 |
+| 27 | tejas   | tejastanpure@gmail.com   | 9021378233 |  30000 | mumbai |    50000 |
+| 28 | aaru    | aarutanpure@gmail.com    | 9021578253 | 300000 | pune   |     6000 |
+| 29 | sanika  | sanika@gmail.com         | 9021548233 | 700000 | dilhi  |     5000 |
+| 30 | sharu   | sharutanpure@gmail.com   | 9021723233 | 400000 | mumbai |    20000 |
++----+---------+--------------------------+------------+--------+--------+----------+
+10 rows in set (0.01 sec)
+
+mysql> select * from customer where salary>10000;
++----+---------+--------------------------+------------+--------+--------+----------+
+| id | name    | email                    | contact    | salary | city   | discount |
++----+---------+--------------------------+------------+--------+--------+----------+
+| 21 | ashish  | aashistanpure@gmail.com  | 9021578233 |  53000 | pune   |    13000 |
+| 22 | sneha   | tanpure@gmail.com        | 9221578233 |  50000 | sanvi  |    20000 |
+| 23 | asmii   | asmiitanpure@gmail.com   | 9021538233 | 530000 | dilhi  |    10000 |
+| 24 | kunal   | kunal@gmail.com          | 9021518233 | 200000 | pune   |    40000 |
+| 25 | shravni | shravnitanpure@gmail.com | 9021578213 |  20000 | pune   |     1000 |
+| 26 | kaushik | kaushiktanpure@gmail.com | 9021508233 |  60000 | nashik |    30000 |
+| 27 | tejas   | tejastanpure@gmail.com   | 9021378233 |  30000 | mumbai |    50000 |
+| 28 | aaru    | aarutanpure@gmail.com    | 9021578253 | 300000 | pune   |     6000 |
+| 29 | sanika  | sanika@gmail.com         | 9021548233 | 700000 | dilhi  |     5000 |
+| 30 | sharu   | sharutanpure@gmail.com   | 9021723233 | 400000 | mumbai |    20000 |
++----+---------+--------------------------+------------+--------+--------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select *  from customer where city='pune' and discount=10000 and like name='s%';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'like name='s%'' at line 1
+
+mysql> select * from customer where name like '%s';
++----+-------+------------------------+------------+--------+--------+----------+
+| id | name  | email                  | contact    | salary | city   | discount |
++----+-------+------------------------+------------+--------+--------+----------+
+| 27 | tejas | tejastanpure@gmail.com | 9021378233 |  30000 | mumbai |    50000 |
++----+-------+------------------------+------------+--------+--------+----------+
+1 row in set (0.01 sec)
+
+mysql> select * from customer where city='pune' and discount=10000 and name like 's%';
+Empty set (0.00 sec)
+
+mysql> select * from customer where city='pune' and discount=20000 and name like 's%';
+Empty set (0.00 sec)
+
+mysql> select * from customer where city='pune' and discount=1000 and name like 's%';
++----+---------+--------------------------+------------+--------+------+----------+
+| id | name    | email                    | contact    | salary | city | discount |
++----+---------+--------------------------+------------+--------+------+----------+
+| 25 | shravni | shravnitanpure@gmail.com | 9021578213 |  20000 | pune |     1000 |
++----+---------+--------------------------+------------+--------+------+----------+
+1 row in set (0.00 sec)
+
+mysql> select * from customer where email like '%@gmail.com' and '_____';
+Empty set, 1 warning (0.01 sec)
+
+mysql> select * from customer where email like '%@gmail.com' and '____';
+Empty set, 1 warning (0.00 sec)
+
+mysql> select * from customer where email like '%@gmail.com' and name '____';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ''____'' at line 1
+
+mysql> select * from customer where email name like '%@gmail.com' and  '____';
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'name like '%@gmail.com' and  '____'' at line 1
+
+
+mysql> select * from customer where email like '%@gmail.com' and  name like '____';
++----+------+-----------------------+------------+--------+------+----------+
+| id | name | email                 | contact    | salary | city | discount |
++----+------+-----------------------+------------+--------+------+----------+
+| 28 | aaru | aarutanpure@gmail.com | 9021578253 | 300000 | pune |     6000 |
++----+------+-----------------------+------------+--------+------+----------+
+1 row in set (0.00 sec)
+
+
+mysql> select * from customer where email like '%@gmail.com' and  name like '_____';
++----+-------+------------------------+------------+--------+--------+----------+
+| id | name  | email                  | contact    | salary | city   | discount |
++----+-------+------------------------+------------+--------+--------+----------+
+| 22 | sneha | tanpure@gmail.com      | 9221578233 |  50000 | sanvi  |    20000 |
+| 23 | asmii | asmiitanpure@gmail.com | 9021538233 | 530000 | dilhi  |    10000 |
+| 24 | kunal | kunal@gmail.com        | 9021518233 | 200000 | pune   |    40000 |
+| 27 | tejas | tejastanpure@gmail.com | 9021378233 |  30000 | mumbai |    50000 |
+| 30 | sharu | sharutanpure@gmail.com | 9021723233 | 400000 | mumbai |    20000 |
++----+-------+------------------------+------------+--------+--------+----------+
+5 rows in set (0.00 sec)
+
+
+mysql> select  discount,count(*) from customer group by discount;
++----------+----------+
+| discount | count(*) |
++----------+----------+
+|    13000 |        1 |
+|    20000 |        2 |
+|    10000 |        1 |
+|    40000 |        1 |
+|     1000 |        1 |
+|    30000 |        1 |
+|    50000 |        1 |
+|     6000 |        1 |
+|     5000 |        1 |
++----------+----------+
+9 rows in set (0.01 sec)
+
+mysql> select name,count(*) from customer group by name;
++---------+----------+
+| name    | count(*) |
++---------+----------+
+| aaru    |        1 |
+| ashish  |        1 |
+| asmii   |        1 |
+| kaushik |        1 |
+| kunal   |        1 |
+| sanika  |        1 |
+| sharu   |        1 |
+| shravni |        1 |
+| sneha   |        1 |
+| tejas   |        1 |
++---------+----------+
+10 rows in set (0.00 sec)
+
+mysql> select * from customer where city in('pune','mumabi','dilhi');
++----+---------+--------------------------+------------+--------+-------+----------+
+| id | name    | email                    | contact    | salary | city  | discount |
++----+---------+--------------------------+------------+--------+-------+----------+
+| 21 | ashish  | aashistanpure@gmail.com  | 9021578233 |  53000 | pune  |    13000 |
+| 23 | asmii   | asmiitanpure@gmail.com   | 9021538233 | 530000 | dilhi |    10000 |
+| 24 | kunal   | kunal@gmail.com          | 9021518233 | 200000 | pune  |    40000 |
+| 25 | shravni | shravnitanpure@gmail.com | 9021578213 |  20000 | pune  |     1000 |
+| 28 | aaru    | aarutanpure@gmail.com    | 9021578253 | 300000 | pune  |     6000 |
+| 29 | sanika  | sanika@gmail.com         | 9021548233 | 700000 | dilhi |     5000 |
++----+---------+--------------------------+------------+--------+-------+----------+
+6 rows in set (0.00 sec)
+
+mysql> select * from customer where city='pune' and  name like '____' and discount=10000;
+Empty set (0.00 sec)
+
+mysql> select * from customer where city='pune' and  name like '____' and discount=1000;
+Empty set (0.00 sec)
+
+mysql> select * from customer where city='pune' and  name like '_____' and discount=10000;
+Empty set (0.00 sec)
+
+mysql> select * from customer where city='dilhi' and  name like '_____' and discount=10000;
++----+-------+------------------------+------------+--------+-------+----------+
+| id | name  | email                  | contact    | salary | city  | discount |
++----+-------+------------------------+------------+--------+-------+----------+
+| 23 | asmii | asmiitanpure@gmail.com | 9021538233 | 530000 | dilhi |    10000 |
++----+-------+------------------------+------------+--------+-------+----------+
+1 row in set (0.00 sec)
+
+mysql>
